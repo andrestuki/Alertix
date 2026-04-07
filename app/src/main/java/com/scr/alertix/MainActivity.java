@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.registrarse_segunda_pagina);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -39,16 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         edtCorreo=findViewById(R.id.edtEmail);
 
-        edtContraseña=findViewById(R.id.edtContraseña);
 
-        edtConfirmarContraseña=findViewById(R.id.edtConfirmarContraseña);
-
-        rbCiudadano=findViewById(R.id.rbCiudadano);
-
-        rbAutoridad=findViewById(R.id.rbAutoridad);
-
-        rbLider=findViewById(R.id.rbLider);
-        btnRegistrar=findViewById(R.id.btnRegistrar);
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

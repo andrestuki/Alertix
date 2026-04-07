@@ -9,6 +9,17 @@ android {
             minorApiLevel = 1
         }
     }
+    namespace = "com.scr.alertix"
+    // ... mantén todo lo que ya tienes ...
+
+    sourceSets {
+        getByName("main") {res.srcDirs(
+            "src/main/res/layouts/auth",
+            "src/main/res/layouts/home",
+            "src/main/res"
+        )
+        }
+    }
 
     defaultConfig {
         applicationId = "com.scr.alertix"
