@@ -42,7 +42,7 @@
                     app:startIconDrawable="@android:drawable/ic_dialog_email">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextTextEmailAddress2"
+                        android:id="@+id/edtCorreo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress" />
@@ -58,7 +58,7 @@
                     app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextTextPassword2"
+                        android:id="@+id/edtPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword" />
@@ -75,6 +75,7 @@
                     app:cornerRadius="8dp" />
 
                 <TextView
+                    android:id="@+id/txtOlvidasteContraseña"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -84,7 +85,7 @@
                     android:textSize="14sp" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnCrearCuenta"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="50dp"

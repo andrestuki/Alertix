@@ -66,7 +66,7 @@
         android:textStyle="normal|bold" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnBienvenidaContinuar"
         android:layout_width="189dp"
         android:layout_height="53dp"
         android:layout_gravity="center"

@@ -4,31 +4,25 @@ plugins {
 
 android {
     namespace = "com.scr.alertix"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
-    namespace = "com.scr.alertix"
-    // ... mantén todo lo que ya tienes ...
-
-    sourceSets {
-        getByName("main") {res.srcDirs(
-            "src/main/res/layouts/auth",
-            "src/main/res/layouts/home",
-            "src/main/res"
-        )
-        }
-    }
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.scr.alertix"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets {
+        getByName("main") {
+            res.srcDirs(
+                "src/main/res/layouts/auth",
+                "src/main/res/layouts/home",
+                "src/main/res"
+            )
+        }
     }
 
     buildTypes {
@@ -47,12 +41,18 @@ android {
 }
 
 dependencies {
+    // --- LIBRERÍAS PARA LA API ---
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // --- LIBRERÍAS DE DISEÑO ---
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
     implementation(libs.cardview)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
