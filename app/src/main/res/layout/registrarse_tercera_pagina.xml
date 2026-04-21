@@ -91,7 +91,7 @@
                     app:boxCornerRadiusTopStart="20dp">
 
                     <EditText
-                        android:id="@+id/edtContraseña"
+                        android:id="@+id/edtContrasenia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -110,7 +110,7 @@
                     app:boxCornerRadiusTopStart="20dp">
 
                     <EditText
-                        android:id="@+id/edtConfirmarContraseña"
+                        android:id="@+id/edtConfirmarContrasenia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"

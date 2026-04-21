@@ -1,6 +1,8 @@
 package com.scr.alertix;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,19 +15,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.scr.alertix.database.Database;
+import com.scr.alertix.registrar.RegistrarPrimeraPagina;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class IniciarSesion extends AppCompatActivity {
 
     EditText edtEmail, edtPassword;
     Button btnIniciarSesion, btnCrearCuenta;
-
-    Intent login;
-
-    String email, password;
-
-    List<Usuario> listaUsuarios;
+    Database dbHelper;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,39 +42,45 @@ public class IniciarSesion extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         btnCrearCuenta = findViewById(R.id.btnCrearCuenta);
-        listaUsuarios = new ArrayList<>();
-        listaUsuarios.add(new Usuario("Admin", "admin@correo.com", "1234", "Administrador"));
-        listaUsuarios.add(new Usuario("Jonathan", "jonathansie42@gmail.com", "abc", "Usuario"));
+
+        dbHelper = new Database(this);
+        db = dbHelper.getReadableDatabase();
 
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    email = edtEmail.getText().toString();
-                    password = edtPassword.getText().toString();
+                String email = edtEmail.getText().toString();
+                String pass = edtPassword.getText().toString();
 
-                    boolean encontrado = false;
+                if (!email.isEmpty() && !pass.isEmpty()) {
+                    // Consultar si el usuario existe
+                    Cursor cursor = db.rawQuery("SELECT * FROM usuarios WHERE correoUsuario=? AND contraseniaUsuario=?", new String[]{email, pass});
 
-                    for (Usuario u : listaUsuarios){
-                        if (u.getCorreo().equals(email) && u.getContraseña().equals(password)){
-                            encontrado = true;
-                            String nombre = u.getNombre();
-                            Toast.makeText(IniciarSesion.this, "Bienvenido " + nombre, Toast.LENGTH_SHORT).show();
-                            break;
-                        }
-                    }
+                    if (cursor.moveToFirst()) {
+                        // Usuario encontrado
+                        Toast.makeText(IniciarSesion.this, "¡Bienvenido!", Toast.LENGTH_SHORT).show();
+                        int idIndex = cursor.getColumnIndexOrThrow("idUsuario");
+                        int idUsuario = cursor.getInt(idIndex);
+                        Intent intent = new Intent(IniciarSesion.this, MenuPrincipal.class);
+                        intent.putExtra("idUsuario", idUsuario);
 
-                    if (encontrado) {
-                        Intent login = new Intent(IniciarSesion.this, MainActivity.class);
-                        login.putExtra("lista_usuarios", (java.io.Serializable) listaUsuarios);
-                        startActivity(login);
+                        startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(IniciarSesion.this, "Usuario no registrado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(IniciarSesion.this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                     }
-                } catch (Exception error){
-
+                    cursor.close();
+                } else {
+                    Toast.makeText(IniciarSesion.this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IniciarSesion.this, RegistrarPrimeraPagina.class);
+                startActivity(intent);
             }
         });
     }

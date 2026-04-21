@@ -42,8 +42,8 @@ android {
 
 dependencies {
     // --- LIBRERÍAS PARA LA API ---
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 
     // --- LIBRERÍAS DE DISEÑO ---
     implementation(libs.appcompat)
@@ -52,6 +52,14 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
     implementation(libs.cardview)
+    implementation(libs.lottie)
+
+    // 2. Para cargar fotos de productos (Glide)
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+
+    // 3. Para pedir permisos de cámara/gps fácil (Dexter)
+    implementation(libs.dexter)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
