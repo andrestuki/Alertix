@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scr.alertix.Data.Model.PublicacionDTO;
 import com.scr.alertix.Data.Repository.PublicacionRepository;
@@ -32,12 +33,11 @@ import retrofit2.Response;
 public class MenuPrincipal extends AppCompatActivity {
 
     RecyclerView rvPublicacion;
-    // Ahora usamos el DTO que mapea tu Procedimiento Almacenado
     ArrayList<PublicacionDTO> listaPublicaciones;
     PublicacionesAdapter adapter;
     FloatingActionButton fabAgregar;
+    BottomNavigationView bottomNavigationView;
 
-    // Instancia de nuestro Repositorio
     PublicacionRepository repository;
 
     @Override
@@ -46,27 +46,37 @@ public class MenuPrincipal extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu_principal);
 
-        // ... (Tu código de ViewCompat se mantiene igual)
-
         rvPublicacion = findViewById(R.id.rvPublicaciones);
         fabAgregar = findViewById(R.id.fabAgregar);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         rvPublicacion.setLayoutManager(new LinearLayoutManager(this));
 
-        // Inicializamos la lista y el repositorio
         listaPublicaciones = new ArrayList<>();
         repository = new PublicacionRepository();
 
-        // Configuramos el adapter (asegúrate de que tu adapter reciba PublicacionFeedDTO)
         adapter = new PublicacionesAdapter(listaPublicaciones);
         rvPublicacion.setAdapter(adapter);
 
-        // Llamamos a la API
         obtenerDatosDeApi();
 
         fabAgregar.setOnClickListener(view -> {
             Intent intent = new Intent(MenuPrincipal.this, Publicar.class);
             intent.putExtra("idUsuario", getIntent().getIntExtra("idUsuario", 0));
             startActivity(intent);
+        });
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.mapa) {
+                startActivity(new Intent(this, SectorizacionActivity.class));
+                return true;
+            } else if (id == R.id.profile) {
+                // Navegar a perfil si existiera
+                return true;
+            } else if (id == R.id.home) {
+                return true;
+            }
+            return false;
         });
     }
 

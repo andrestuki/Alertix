@@ -19,12 +19,12 @@ public class PublicacionRepository {
 
     // Esta función es la que el Activity va a llamar
     public void obtenerFeed(Callback<List<PublicacionDTO>> callback) {
-        // Aquí el mesero hace el pedido a la cocina
         Call<List<PublicacionDTO>> call = apiService.getPublicaciones();
-
-        // El mesero se queda esperando la respuesta (.enqueue)
-        // El 'callback' es como el ticket que te avisa cuando la comida llegó
         call.enqueue(callback);
+    }
+
+    public void crearPublicacion(PublicacionDTO publicacion, Callback<Void> callback) {
+        apiService.crearPublicacion(publicacion).enqueue(callback);
     }
 }
 

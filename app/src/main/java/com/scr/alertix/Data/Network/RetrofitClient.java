@@ -8,13 +8,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
     private static Retrofit retrofit = null;
 
-    // Esta función es la que todos llaman para obtener la conexión
     public static Retrofit getRetrofitInstance() {
-        if (retrofit == null) { // Si no existe, la creamos (Patrón Singleton)
+        if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://10.0.2.2:8080/api/")// 1. La dirección de tu API
-                    .addConverterFactory(GsonConverterFactory.create()) // 2. El traductor (GSON)
-                    .build(); // 3. ¡Construir!
+                    .baseUrl(Url.URL_BASE)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
         }
         return retrofit;
     }

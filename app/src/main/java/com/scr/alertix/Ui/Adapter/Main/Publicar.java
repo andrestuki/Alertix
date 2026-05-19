@@ -18,11 +18,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.scr.alertix.Data.Model.PublicacionDTO;
+import com.scr.alertix.Data.Repository.PublicacionRepository;
 import com.scr.alertix.R;
 import com.scr.alertix.database.Database;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Publicar extends AppCompatActivity {
     AutoCompleteTextView comboTipoAlerta;
@@ -32,6 +38,7 @@ public class Publicar extends AppCompatActivity {
     Database dbHelper;
     SQLiteDatabase db;
     int idUsuario;
+    PublicacionRepository repository;
 
     Intent i;
     String tipoSeleccionado;
@@ -52,6 +59,7 @@ public class Publicar extends AppCompatActivity {
         btnPublicar=findViewById(R.id.btnPublicar);
         dbHelper = new Database(this);
         db = dbHelper.getWritableDatabase();
+        repository = new PublicacionRepository();
         i=getIntent();
         lista = new ArrayList<>();
         lista.add("robo");
@@ -91,9 +99,35 @@ public class Publicar extends AppCompatActivity {
                         values.put("tipo", tipoSeleccionado);
                         values.put("lugar", "Santa marta, cbn");
                         values.put("img", "url");
-                        long resultado = db.insert("publicaciones", null, values);
-                        Intent principal = new Intent(Publicar.this, MenuPrincipal.class);
-                        finish();
+                        
+                        // Preparar objeto para la API
+                        PublicacionDTO nuevaP = new PublicacionDTO();
+                        nuevaP.setDescripcion(edtDescripcion.getText().toString());
+                        nuevaP.setCategoria(tipoSeleccionado);
+                        nuevaP.setFecha(fecha);
+                        nuevaP.setBarrio("Santa marta, cbn");
+                        nuevaP.setImagenPublicacion("url");
+                        
+                        repository.crearPublicacion(nuevaP, new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.isSuccessful()) {
+                                    db.insert("publicaciones", null, values);
+                                    Toast.makeText(Publicar.this, "Alerta publicada en la red", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(Publicar.this, "Error en API: " + response.code(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                // Si falla internet, guardamos en local de todos modos
+                                db.insert("publicaciones", null, values);
+                                Toast.makeText(Publicar.this, "Guardado local (sin conexión)", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
                     } else {
                         Toast.makeText(Publicar.this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
                     }

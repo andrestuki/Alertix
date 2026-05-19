@@ -65,7 +65,13 @@ public class RegistrarSegundaPagina extends AppCompatActivity {
                 }
                 else
                 {
+                    Intent intentActual = getIntent();
+                    String nombre = intentActual.getStringExtra("nombre");
+                    String apellido = intentActual.getStringExtra("apellido");
+
                     Intent segunda = new Intent(RegistrarSegundaPagina.this, RegistrarTerceraPagina.class);
+                    segunda.putExtra("nombre", nombre);
+                    segunda.putExtra("apellido", apellido);
                     segunda.putExtra("genero", genero);
                     startActivity(segunda);
                 }

@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -67,6 +68,12 @@ dependencies {
 
     // 3. Para pedir permisos de cámara/gps fácil (Dexter)
     implementation(libs.dexter)
+
+    // --- FIREBASE & MAPS ---
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

@@ -9,6 +9,10 @@
         android:title=""
         android:enabled="false" />
     <item
+        android:id="@+id/mapa"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="Mapa" />
+    <item
         android:id="@+id/profile"
         android:icon="@android:drawable/ic_menu_manage"
         android:title="Perfil" />

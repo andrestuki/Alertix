@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "673055550689",
+    "project_id": "alertix-1bd2f",
+    "storage_bucket": "alertix-1bd2f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673055550689:android:e308b12097452979ac5ba0",
+        "android_client_info": {
+          "package_name": "com.scr.alertix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBju4UCHDEAZwuaUk25JP2otmFnUmDDt7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

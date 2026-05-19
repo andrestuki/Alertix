@@ -14,9 +14,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.scr.alertix.Data.Model.RegisterRequest;
+import com.scr.alertix.Data.Repository.UsuarioRepository;
+import com.scr.alertix.Pojo.Usuario;
 import com.scr.alertix.Ui.Adapter.Main.MenuPrincipal;
 import com.scr.alertix.R;
 import com.scr.alertix.database.Database;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegistrarTerceraPagina extends AppCompatActivity {
 
@@ -27,6 +34,7 @@ public class RegistrarTerceraPagina extends AppCompatActivity {
     Button btnContinuar;
     Database dbHelper;
     SQLiteDatabase db;
+    UsuarioRepository repository;
 
     Intent i;
 
@@ -48,7 +56,7 @@ public class RegistrarTerceraPagina extends AppCompatActivity {
         edtConfirmarContrasenia = findViewById(R.id.edtConfirmarContrasenia);
         btnContinuar = findViewById(R.id.btnRegistrar3Continuar);
 
-
+        repository = new UsuarioRepository();
         dbHelper = new Database(this);
         db = dbHelper.getWritableDatabase();
 
@@ -56,36 +64,53 @@ public class RegistrarTerceraPagina extends AppCompatActivity {
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = edtEmail.getText().toString();
-                String contrasenia = edtContrasenia.getText().toString();
+                final String finalEmail = edtEmail.getText().toString();
+                final String finalContrasenia = edtContrasenia.getText().toString();
                 String confirmarContrasenia = edtConfirmarContrasenia.getText().toString();
 
-                if (!email.isEmpty() && !contrasenia.isEmpty() && !confirmarContrasenia.isEmpty()) {
-                    if (contrasenia.equals(confirmarContrasenia)) {
+                if (!finalEmail.isEmpty() && !finalContrasenia.isEmpty() && !confirmarContrasenia.isEmpty()) {
+                    if (finalContrasenia.equals(confirmarContrasenia)) {
 
                         i=getIntent();
                         nombre=i.getStringExtra("nombre");
                         apellido=i.getStringExtra("apellido");
                         genero=i.getStringExtra("genero");
-                        contrasenia=edtContrasenia.getText().toString();
-                        email=edtEmail.getText().toString();
 
-                        ContentValues values = new ContentValues();
+                        RegisterRequest request = new RegisterRequest(nombre, apellido, genero, finalEmail, finalContrasenia, 2);
 
-                        values.put("nombreUsuario", nombre);
-                        values.put("apellidoUsuario", apellido);
-                        values.put("generoUsuario", genero);
-                        values.put("contraseniaUsuario", contrasenia);
-                        values.put("correoUsuario", email);
-                        values.put("idProfile", 2);
-                        long resultado = db.insert("usuarios", null, values);
-                        android.widget.Toast.makeText(RegistrarTerceraPagina.this,
-                                "¡Cuenta creada con éxito!", android.widget.Toast.LENGTH_SHORT).show();
+                        repository.registrarUsuario(request, new Callback<Usuario>() {
+                            @Override
+                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                if (response.isSuccessful()) {
+                                    // Guardar en SQLite opcionalmente o solo navegar
+                                    ContentValues values = new ContentValues();
+                                    values.put("nombreUsuario", nombre);
+                                    values.put("apellidoUsuario", apellido);
+                                    values.put("generoUsuario", genero);
+                                    values.put("contraseniaUsuario", finalContrasenia);
+                                    values.put("correoUsuario", finalEmail);
+                                    values.put("idProfile", 2);
+                                    db.insert("usuarios", null, values);
 
-                        Intent intent = new Intent(RegistrarTerceraPagina.this, MenuPrincipal.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
+                                    android.widget.Toast.makeText(RegistrarTerceraPagina.this,
+                                            "¡Cuenta creada con éxito!", android.widget.Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(RegistrarTerceraPagina.this, MenuPrincipal.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    android.widget.Toast.makeText(RegistrarTerceraPagina.this,
+                                            "Error al registrar: " + response.code(), android.widget.Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Usuario> call, Throwable t) {
+                                android.widget.Toast.makeText(RegistrarTerceraPagina.this,
+                                        "Falla de red: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
 
 

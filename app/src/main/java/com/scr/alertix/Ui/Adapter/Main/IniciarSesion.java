@@ -65,6 +65,10 @@ public class IniciarSesion extends AppCompatActivity {
                 Toast.makeText(this, "Completa los campos", Toast.LENGTH_SHORT).show();
             }
         });
+
+        btnCrearCuenta.setOnClickListener(v -> {
+            startActivity(new Intent(IniciarSesion.this, RegistrarPrimeraPagina.class));
+        });
     }
 
     private void ejecutarLogin(String email, String pass) {

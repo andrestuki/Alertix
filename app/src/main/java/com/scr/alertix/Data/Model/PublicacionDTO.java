@@ -83,4 +83,48 @@ public class PublicacionDTO {
     public int getCompartidos() {
         return compartidos;
     }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setBarrio(String barrio) {
+        this.barrio = barrio;
+    }
+
+    public void setImagenPublicacion(String imagenPublicacion) {
+        this.imagenPublicacion = imagenPublicacion;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public void setComentarios(int comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    public void setCompartidos(int compartidos) {
+        this.compartidos = compartidos;
+    }
 }
