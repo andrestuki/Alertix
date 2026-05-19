@@ -13,6 +13,10 @@ retrofit = "2.11.0"
 lottie = "6.6.2"
 glide = "4.16.0"
 dexter = "6.2.3"
+volley = "1.2.1"
+picasso = "2.8"
+gson = "2.11.0"
+lombok = "1.18.30"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -30,6 +34,10 @@ lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie"
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 dexter = { group = "com.karumi", name = "dexter", version.ref = "dexter" }
+volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
+picasso = { group = "com.squareup.picasso", name = "picasso", version.ref = "picasso" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

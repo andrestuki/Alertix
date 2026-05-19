@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -12,22 +14,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Alertix">
         <activity
-            android:name=".MenuPrincipal"
+            android:name=".Ui.Adapter.Main.MenuPrincipal"
             android:exported="false" />
         <activity
-            android:name=".Publicar"
+            android:name=".Ui.Adapter.Main.Publicar"
             android:exported="false" />
         <activity
-            android:name=".registrar.RegistrarTerceraPagina"
+            android:name=".Ui.Adapter.Main.registrar.RegistrarTerceraPagina"
             android:exported="false" />
         <activity
-            android:name=".registrar.RegistrarSegundaPagina"
+            android:name=".Ui.Adapter.Main.registrar.RegistrarSegundaPagina"
             android:exported="false" />
         <activity
-            android:name=".registrar.RegistrarPrimeraPagina"
+            android:name=".Ui.Adapter.Main.registrar.RegistrarPrimeraPagina"
             android:exported="false" />
         <activity
-            android:name=".IniciarSesion"
+            android:name=".Ui.Adapter.Main.IniciarSesion"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,10 +38,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PaginaDeBienvenida2"
+            android:name=".Ui.Adapter.Main.PaginaDeBienvenida2"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Ui.Adapter.Main.MainActivity"
             android:exported="false" />
         <activity
             android:name=".ListadoUsuariosActivity"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Publicar">
+    tools:context=".Ui.Adapter.Main.Publicar">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

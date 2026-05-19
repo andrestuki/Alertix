@@ -41,11 +41,17 @@ android {
 }
 
 dependencies {
-    // --- LIBRERÍAS PARA LA API ---
+    // --- LOMBOK ---
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
+    // --- LIBRERÍAS PARA LA API (Network) ---
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+    implementation(libs.gson)
+    implementation(libs.volley)
 
-    // --- LIBRERÍAS DE DISEÑO ---
+    // --- LIBRERÍAS DE DISEÑO E IMÁGENES ---
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -53,6 +59,7 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.cardview)
     implementation(libs.lottie)
+    implementation(libs.picasso)
 
     // 2. Para cargar fotos de productos (Glide)
     implementation(libs.glide)
