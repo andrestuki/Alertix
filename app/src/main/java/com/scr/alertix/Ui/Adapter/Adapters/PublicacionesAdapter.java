@@ -1,6 +1,6 @@
 package com.scr.alertix.Ui.Adapter.Adapters;
 
-import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,23 +38,62 @@ public class PublicacionesAdapter extends RecyclerView.Adapter<PublicacionesAdap
         holder.nombre.setText(p.getNombreUsuario());
         holder.descripcion.setText(p.getDescripcion());
         holder.fecha.setText(p.getFecha());
-        holder.tipo.setText(p.getCategoria()); // Usamos categoria de la API
+        holder.tipo.setText(p.getCategoria());
         holder.lugar.setText(p.getBarrio());
 
-        // Cargar Foto de Perfil con Picasso (ya que lo descargamos)
-        if (p.getFotoPerfil() != null && !p.getFotoPerfil().isEmpty()) {
-            Picasso.get().load(p.getFotoPerfil()).placeholder(R.drawable.alertix_logo).into(holder.avatar);
+        // Mostrar contadores
+        holder.countLikes.setText(String.valueOf(p.getLikes()));
+        holder.countComments.setText(String.valueOf(p.getComentarios()));
+
+        // 1. Cargar Foto de Perfil
+        String urlPerfil = p.getFotoPerfil();
+        if (urlPerfil != null && !urlPerfil.trim().isEmpty() && !urlPerfil.equalsIgnoreCase("null")) {
+            Picasso.get()
+                    .load(urlPerfil)
+                    .placeholder(R.drawable.alertix_logo)
+                    .into(holder.avatar);
         } else {
             holder.avatar.setImageResource(R.drawable.alertix_logo);
         }
 
-        // Cargar Imagen de la Publicación con Picasso
-        if (p.getImagenPublicacion() != null && !p.getImagenPublicacion().isEmpty()) {
+
+        String urlImagen = p.getImagenPublicacion();
+        if (urlImagen != null && !urlImagen.trim().isEmpty() && !urlImagen.equalsIgnoreCase("null")) {
             holder.imagen.setVisibility(View.VISIBLE);
-            Picasso.get().load(p.getImagenPublicacion()).into(holder.imagen);
+            Picasso.get()
+                    .load(urlImagen)
+                    .into(holder.imagen);
         } else {
             holder.imagen.setVisibility(View.GONE);
         }
+
+        // 3. Lógica del Like (Corazón)
+        actualizarColorLike(holder.btnLike, p.isLiked());
+
+        holder.btnLike.setOnClickListener(v -> {
+            boolean nuevoEstado = !p.isLiked();
+            p.setLiked(nuevoEstado);
+            
+            // Actualizar contador localmente
+            if (nuevoEstado) {
+                p.setLikes(p.getLikes() + 1);
+            } else {
+                p.setLikes(p.getLikes() - 1);
+            }
+            holder.countLikes.setText(String.valueOf(p.getLikes()));
+
+            actualizarColorLike(holder.btnLike, nuevoEstado);
+        });
+    }
+
+    private void actualizarColorLike(ImageButton btn, boolean isLiked) {
+        if (isLiked) {
+            btn.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            btn.setImageResource(R.drawable.ic_heart);
+        }
+        // Quitamos cualquier filtro de color previo para que se vean los colores originales del vector
+        btn.setColorFilter(null);
     }
 
     @Override
@@ -63,8 +102,8 @@ public class PublicacionesAdapter extends RecyclerView.Adapter<PublicacionesAdap
     }
 
     public static class PublicacionViewHolder extends RecyclerView.ViewHolder {
-        TextView nombre, descripcion, fecha, tipo, lugar;
-        ImageButton avatar;
+        TextView nombre, descripcion, fecha, tipo, lugar, countLikes, countComments;
+        ImageButton avatar, btnLike, btnComment, btnShare;
         ImageView imagen;
 
         public PublicacionViewHolder(@NonNull View itemView) {
@@ -74,8 +113,14 @@ public class PublicacionesAdapter extends RecyclerView.Adapter<PublicacionesAdap
             fecha = itemView.findViewById(R.id.txtFechaPublicacion);
             tipo = itemView.findViewById(R.id.txtTipoAlertaPublicacion);
             lugar = itemView.findViewById(R.id.txtLugarPublicacion);
+            countLikes = itemView.findViewById(R.id.txtCountLikes);
+            countComments = itemView.findViewById(R.id.txtCountComments);
             avatar = itemView.findViewById(R.id.imgUsuario);
             imagen = itemView.findViewById(R.id.imgPublicacion);
+            
+            btnLike = itemView.findViewById(R.id.btnLike);
+            btnComment = itemView.findViewById(R.id.btnComment);
+            btnShare = itemView.findViewById(R.id.btnShare);
         }
     }
 }

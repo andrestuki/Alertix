@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.scr.alertix.Data.Model.LoginResponse;
 import com.scr.alertix.Data.Repository.UsuarioRepository;
+import com.scr.alertix.Utils.SessionManager;
 import com.scr.alertix.Utils.Url;
 import com.scr.alertix.R;
 import com.scr.alertix.database.Database;
@@ -41,6 +42,12 @@ public class IniciarSesion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SessionManager sessionManager = new SessionManager(this);
+        if (sessionManager.isLoggedIn()) {
+            startActivity(new Intent(this, MenuPrincipal.class));
+            finish();
+            return;
+        }
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_iniciar_sesion);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -79,16 +86,23 @@ public class IniciarSesion extends AppCompatActivity {
                     LoginResponse res = response.body();
 
                     if (res.getIdUsuario() > 0) {
+                        SessionManager sessionManager = new SessionManager(IniciarSesion.this);
+                        sessionManager.saveSession(res.getIdUsuario());
                         Intent intent = new Intent(IniciarSesion.this, MenuPrincipal.class);
                         intent.putExtra("idUsuario", res.getIdUsuario());
                         intent.putExtra("idProfile", res.getIdProfile());
+
+
                         startActivity(intent);
                         finish();
-                    } else {
-                        Toast.makeText(IniciarSesion.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(IniciarSesion.this, "Error en el servidor", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                // AQUÍ manejas las credenciales incorrectas (Código 401)
+                Toast.makeText(IniciarSesion.this, "Usuario/contraseña incorrectos", Toast.LENGTH_SHORT).show();
+            }
+                else {
+                    String errorMsg = "Error en el servidor: " + response.code();
+                    Toast.makeText(IniciarSesion.this, errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
 

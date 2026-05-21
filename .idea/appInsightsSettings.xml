@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.scr.alertix" />
+                  <option name="mobileSdkAppId" value="1:673055550689:android:e308b12097452979ac5ba0" />
+                  <option name="projectId" value="alertix-1bd2f" />
+                  <option name="projectNumber" value="673055550689" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

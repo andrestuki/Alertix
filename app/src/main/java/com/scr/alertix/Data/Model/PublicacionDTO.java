@@ -2,43 +2,51 @@ package com.scr.alertix.Data.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import lombok.Data;
-
-
 public class PublicacionDTO {
 
-        @SerializedName("usuarioNombre")
-        private String nombreUsuario;
+    @SerializedName("usuarioNombre")
+    private String nombreUsuario;
 
-        @SerializedName("imgPerfil")
-        private String fotoPerfil;
+    @SerializedName("imgPerfil")
+    private String fotoPerfil;
 
-        @SerializedName("idPublicacion")
-        private int id;
+    @SerializedName("idPublicacion")
+    private int id;
 
-        @SerializedName("descripcion")
-        private String descripcion;
+    @SerializedName("descripcion")
+    private String descripcion;
 
-        @SerializedName("barrio")
-        private String barrio;
+    @SerializedName("barrio")
+    private String barrio;
 
-        @SerializedName("imgPublicacion") // Coincide con el ALIAS de tu SQL
-        private String imagenPublicacion;
+    @SerializedName("imgPublicacion")
+    private String imagenPublicacion;
 
-        @SerializedName("fecha")
-        private String fecha;
+    @SerializedName("fecha")
+    private String fecha;
 
-        @SerializedName("nombreCategoria")
-        private String categoria;
+    @SerializedName("nombreCategoria")
+    private String categoria;
 
-        @SerializedName("cantidadLikes")
-        private int likes;
+    @SerializedName("cantidadLikes")
+    private int likes;
 
-        @SerializedName("cantidadComentarios")
-        private int comentarios;
+    @SerializedName("cantidadComentarios")
+    private int comentarios;
 
-        @SerializedName("cantidadCompartidos")
-        private int compartidos;
+    @SerializedName("cantidadCompartidos")
+    private int compartidos;
+
+    // Estado local para el Like
+    private boolean isLiked = false;
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
 
     public String getNombreUsuario() {
         return nombreUsuario;

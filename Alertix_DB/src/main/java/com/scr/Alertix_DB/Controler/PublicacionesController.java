@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Alertas")
+@RequestMapping("/")
 public class PublicacionesController {
     @Autowired
     private PublicacionesServices publicacionesServices;

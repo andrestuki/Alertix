@@ -5,6 +5,10 @@
         android:icon="@android:drawable/ic_menu_today"
         android:title="Inicio" />
     <item
+        android:id="@+id/notificaciones"
+        android:icon="@android:drawable/ic_popup_reminder"
+        android:title="Alertas" />
+    <item
         android:id="@+id/placeholder"
         android:title=""
         android:enabled="false" />

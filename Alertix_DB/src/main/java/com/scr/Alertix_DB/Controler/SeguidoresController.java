@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/Seguidores")
+@RequestMapping("/")
 public class SeguidoresController {
     @Autowired
     private SeguidoresServices seguidoresServices;

@@ -66,16 +66,29 @@ public class MenuPrincipal extends AppCompatActivity {
         });
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.mapa) {
-                startActivity(new Intent(this, SectorizacionActivity.class));
-                return true;
-            } else if (id == R.id.profile) {
-                // Navegar a perfil si existiera
-                return true;
-            } else if (id == R.id.home) {
+            int id = item.getItemId();if (id == R.id.home) {
+                // Si ya estás en inicio, podrías hacer scroll al principio
+                rvPublicacion.smoothScrollToPosition(0);
                 return true;
             }
+
+            else if (id == R.id.notificaciones) { // El ID que agregamos antes
+                Toast.makeText(this, "Abriendo Alertas...", Toast.LENGTH_SHORT).show();
+                // startActivity(new Intent(this, AlertasActivity.class));
+                return true;
+            }
+
+            else if (id == R.id.mapa) {
+                startActivity(new Intent(this, SectorizacionActivity.class));
+                return true;
+            }
+
+            else if (id == R.id.profile) {
+                Toast.makeText(this, "Abriendo Perfil...", Toast.LENGTH_SHORT).show();
+                // startActivity(new Intent(this, PerfilActivity.class));
+                return true;
+            }
+
             return false;
         });
     }

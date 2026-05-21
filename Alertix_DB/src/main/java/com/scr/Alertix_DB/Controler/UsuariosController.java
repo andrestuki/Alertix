@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/")
 public class UsuariosController {
     @Autowired
     private UsuariosServices usuariosService;
@@ -29,7 +29,7 @@ public class UsuariosController {
         }
     }
 
-    @PostMapping("/Login")
+    @PostMapping("/login")
     public ResponseEntity<?> Login(@Valid @RequestBody LoginRequest request) {
         try {
             // 1. Guardamos la respuesta del servicio

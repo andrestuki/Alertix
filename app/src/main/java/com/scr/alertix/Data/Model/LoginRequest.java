@@ -9,5 +9,11 @@ public class LoginRequest {
         this.contrasenia = contrasenia;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
 
+    public String getContrasenia() {
+        return contrasenia;
+    }
 }
