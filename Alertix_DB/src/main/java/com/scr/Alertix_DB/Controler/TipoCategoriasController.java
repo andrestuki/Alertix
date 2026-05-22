@@ -28,6 +28,7 @@ public class TipoCategoriasController {
             }
             return new ResponseEntity<>(categorias, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("error: "+ e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -16,6 +16,9 @@ public class PublicacionesServices {
     private PublicacionesRepository publicacionesRepository;
 
     public Integer agragarPublicaciones(Publicaciones publi){
+        if (publi.getIdUsuarios() == null) {
+            throw new IllegalArgumentException("El usuario de la publicación no puede estar vacío");
+        }
         return publicacionesRepository.agregarPublicaciones(publi.getIdUsuarios().getIdUsuario(),publi.getCategorias().getIdCategorias(), publi.getDescripcion(), publi.getIdDireccion().getIdDireccion(), publi.getImg());
     }
 

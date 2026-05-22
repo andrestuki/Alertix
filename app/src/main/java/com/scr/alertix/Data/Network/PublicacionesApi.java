@@ -1,6 +1,7 @@
 package com.scr.alertix.Data.Network;
 
 import com.scr.alertix.Data.Model.PublicacionDTO;
+import com.scr.alertix.Data.Model.PublicacionRequest;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface PublicacionesApi {
     @GET("mostrarPublicaciones")
     Call<List<PublicacionDTO>> getPublicaciones();
 
-    @POST("publicaciones")
-    Call<Void> crearPublicacion(@Body PublicacionDTO publicacion);
+    @POST("AgregarPublicacion")
+    Call<Void> crearPublicacion(@Body PublicacionRequest publicacion);
 }

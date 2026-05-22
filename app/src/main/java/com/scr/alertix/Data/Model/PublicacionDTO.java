@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class PublicacionDTO {
 
+    @SerializedName("idUsuario")
+    private int idUsuario;
+
     @SerializedName("usuarioNombre")
     private String nombreUsuario;
 
@@ -39,6 +42,14 @@ public class PublicacionDTO {
 
     // Estado local para el Like
     private boolean isLiked = false;
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public boolean isLiked() {
         return isLiked;

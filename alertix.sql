@@ -29,7 +29,7 @@ CREATE TABLE usuarios (
     idDireccion int,
     contraseniaUsuario varchar(100),
     correoUsuario varchar(100),
-    imgPerfil varchar(255),
+    imgPerfil LONGTEXT,
     usuarioEstado varchar(100),
     idProfile int,
     CONSTRAINT fk_usu_direccion FOREIGN KEY(idDireccion) REFERENCES direcciones(idDireccion) ON DELETE SET NULL,
@@ -58,7 +58,7 @@ CREATE TABLE publicaciones (
     descripcion text,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     idDireccion int,
-    img varchar(300),
+    img LONGTEXT,
     constraint fk_pub_idCategoria foreign key(idCategorias) references categorias(idCategorias) ON DELETE CASCADE,
     CONSTRAINT fk_pub_usuario FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario) ON DELETE CASCADE,
     CONSTRAINT fk_pub_direccion FOREIGN KEY (idDireccion) REFERENCES direcciones(idDireccion) ON DELETE SET NULL
@@ -134,6 +134,11 @@ CREATE TABLE compartidos(
 
 DELIMITER //
 
+CREATE PROCEDURE llenarCategoriaAlerta()
+BEGIN
+    SELECT idCategorias, nombreCategoria FROM categorias;
+END;//
+
 -- USUARIOS:
 
 CREATE PROCEDURE registrarUsuario(
@@ -145,7 +150,7 @@ CREATE PROCEDURE registrarUsuario(
     p_idDireccion integer,
     p_contraseniaUsuario varchar(200),
     p_correoUsuario varchar(100),
-    p_imgPerfil varchar(255)
+    p_imgPerfil LONGTEXT
 ) 
 BEGIN
     DECLARE conteo INT;
@@ -217,7 +222,7 @@ CREATE PROCEDURE agregarPublicaciones(
     IN p_idCategorias INT,
     IN p_descripcion TEXT,
     IN p_idDireccion INT, 
-    IN p_img TEXT
+    IN p_img LONGTEXT
 )
 BEGIN
     -- Corregimos quitando el p_descripcion repetido
@@ -568,6 +573,8 @@ INSERT INTO categorias (idCategorias, nombreCategoria) VALUES
 (2, 'Infraestructura'),
 (3, 'Eventos'),
 (4, 'Emergencias');
+
+select * from categorias;
 
 -- Tipos de Reporte
 INSERT INTO tipoReportes (idTipoReportes, tipoReportes) VALUES

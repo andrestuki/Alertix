@@ -1,30 +1,40 @@
 package com.scr.alertix.Ui.Main;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.scr.alertix.Data.Model.PublicacionDTO;
+import com.scr.alertix.Data.Model.PublicacionRequest;
+import com.scr.alertix.Data.Model.TipoCategoriasDTO;
+import com.scr.alertix.Data.Repository.CategoriasRepository;
 import com.scr.alertix.Data.Repository.PublicacionRepository;
 import com.scr.alertix.R;
-import com.scr.alertix.database.Database;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,15 +43,28 @@ import retrofit2.Response;
 public class Publicar extends AppCompatActivity {
     AutoCompleteTextView comboTipoAlerta;
     EditText edtDescripcion;
-    Button btnPublicar;
-    ArrayList<String> lista;
-    Database dbHelper;
-    SQLiteDatabase db;
+    Button btnPublicar, btnSeleccionarImagen;
+    ImageView imgPreview;
+
     int idUsuario;
     PublicacionRepository repository;
+    CategoriasRepository catRepository;
+    private List<TipoCategoriasDTO> listaCategoriasGlobal;
+    private int idCategoriaDetectado = 0;
 
     Intent i;
-    String tipoSeleccionado;
+    String tipoSeleccionado = "";
+    String base64Image = "";
+
+    private final ActivityResultLauncher<String> mGetContent = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    imgPreview.setImageURI(uri);
+                    base64Image = uriToBase64(uri);
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,83 +79,119 @@ public class Publicar extends AppCompatActivity {
 
         comboTipoAlerta = findViewById(R.id.comboTipoAlerta);
         edtDescripcion = findViewById(R.id.edtDescripcion);
-        btnPublicar=findViewById(R.id.btnPublicar);
-        dbHelper = new Database(this);
-        db = dbHelper.getWritableDatabase();
+        btnPublicar = findViewById(R.id.btnPublicar);
+        btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen);
+        imgPreview = findViewById(R.id.imgPreview);
+
         repository = new PublicacionRepository();
-        i=getIntent();
-        lista = new ArrayList<>();
-        lista.add("robo");
-        lista.add("incendio");
-        lista.add("lluvia");
-        lista.add("apagon");
-        lista.add("inundacion");
+        catRepository = new CategoriasRepository();
+        i = getIntent();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
-        comboTipoAlerta.setAdapter(adapter);
+        cargarCategorias();
 
+        btnSeleccionarImagen.setOnClickListener(v -> mGetContent.launch("image/*"));
 
-        comboTipoAlerta.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-                tipoSeleccionado = adapterView.getItemAtPosition(position).toString();
+        // CORRECCIÓN: Obtener el objeto seleccionado correctamente incluso con filtros
+        comboTipoAlerta.setOnItemClickListener((adapterView, view, position, id) -> {
+            TipoCategoriasDTO seleccionado = (TipoCategoriasDTO) adapterView.getItemAtPosition(position);
+            if (seleccionado != null) {
+                idCategoriaDetectado = seleccionado.getIdCategoria();
+                tipoSeleccionado = seleccionado.getNombreCategoria();
             }
         });
 
-        btnPublicar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // En Publicar.java
-                idUsuario = i.getIntExtra("idUsuario", 0);
+        btnPublicar.setOnClickListener(view -> {
+            idUsuario = i.getIntExtra("idUsuario", 0);
+            String descripcion = edtDescripcion.getText().toString().trim();
+            String textoTipoAlerta = comboTipoAlerta.getText().toString().trim();
 
-                    if (!edtDescripcion.getText().toString().isEmpty() && !tipoSeleccionado.isEmpty()) {
-                        idUsuario = i.getIntExtra("idUsuario", 0);
-                        ContentValues values = new ContentValues();
-                        String fecha = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(System.currentTimeMillis());
+            // RESPALDO: Si el usuario escribió y no hizo clic, buscamos el ID por texto
+            if (idCategoriaDetectado == 0 && !textoTipoAlerta.isEmpty() && listaCategoriasGlobal != null) {
+                for (TipoCategoriasDTO cat : listaCategoriasGlobal) {
+                    if (cat.getNombreCategoria().equalsIgnoreCase(textoTipoAlerta)) {
+                        idCategoriaDetectado = cat.getIdCategoria();
+                        tipoSeleccionado = cat.getNombreCategoria();
+                        break;
+                    }
+                }
+            }
 
-                        values.put("idUsuario", idUsuario);
-                        values.put("descripcion", edtDescripcion.getText().toString());
-                        values.put("fecha", fecha);
-                        values.put("tipo", tipoSeleccionado);
-                        values.put("lugar","");
-                        values.put("img", "url");
-                        
-                        // Preparar objeto para la API
-                        PublicacionDTO nuevaP = new PublicacionDTO();
-                        nuevaP.setDescripcion(edtDescripcion.getText().toString());
-                        nuevaP.setCategoria(tipoSeleccionado);
-                        nuevaP.setFecha(fecha);
-                        nuevaP.setBarrio("Santa marta, cbn");
-                        nuevaP.setImagenPublicacion("url");
-                        
-                        repository.crearPublicacion(nuevaP, new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                if (response.isSuccessful()) {
-                                    db.insert("publicaciones", null, values);
-                                    Toast.makeText(Publicar.this, "Alerta publicada en la red", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                } else {
-                                    Toast.makeText(Publicar.this, "Error en API: " + response.code(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
+            // Validaciones específicas para saber qué falla
+            if (descripcion.isEmpty()) {
+                Toast.makeText(Publicar.this, "Escribe una descripción para el reporte", Toast.LENGTH_SHORT).show();
+            }  else {
+                PublicacionRequest nuevaP = new PublicacionRequest();
+                nuevaP.setDescripcion(descripcion);
+                nuevaP.setImg(base64Image);
+                nuevaP.setIdUsuarios(new PublicacionRequest.UsuarioId(idUsuario));
+                nuevaP.setCategorias(new PublicacionRequest.CategoriaId(1));
+                nuevaP.setIdDireccion(new PublicacionRequest.DireccionId(1));
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                // Si falla internet, guardamos en local de todos modos
-                                db.insert("publicaciones", null, values);
-                                Toast.makeText(Publicar.this, "Guardado local (sin conexión)", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        });
-                    } else {
-                        Toast.makeText(Publicar.this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+                repository.crearPublicacion(nuevaP, new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(Publicar.this, "¡Alerta publicada!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(Publicar.this, "Error del servidor: " + response.code(), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(Publicar.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+    }
 
+    private void cargarCategorias() {
+        catRepository.obtenerFeed(new Callback<List<TipoCategoriasDTO>>() {
+            @Override
+            public void onResponse(Call<List<TipoCategoriasDTO>> call, Response<List<TipoCategoriasDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listaCategoriasGlobal = response.body();
+                    ArrayAdapter<TipoCategoriasDTO> adapter = new ArrayAdapter<>(
+                            Publicar.this,
+                            android.R.layout.simple_list_item_1,
+                            listaCategoriasGlobal
+                    );
+                    comboTipoAlerta.setAdapter(adapter);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<TipoCategoriasDTO>> call, Throwable t) {
+                Toast.makeText(Publicar.this, "Error al cargar categorías", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // CORRECCIÓN: Redimensionar y comprimir para evitar "Data too long" en DB
+    private String uriToBase64(Uri uri) {
+        try {
+            InputStream is = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            if (bitmap == null) return "";
+
+            // Redimensionar a max 800px para ahorrar espacio
+            int maxSize = 800;
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            if (width > maxSize || height > maxSize) {
+                float ratio = (float) width / (float) height;
+                if (ratio > 1) { width = maxSize; height = (int) (maxSize / ratio); }
+                else { height = maxSize; width = (int) (maxSize * ratio); }
+                bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+            }
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos); // Compresión al 50%
+            return Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP);
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

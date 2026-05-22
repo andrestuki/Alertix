@@ -19,7 +19,7 @@ import com.scr.alertix.Data.Repository.UsuarioRepository;
 import com.scr.alertix.Pojo.Usuario;
 import com.scr.alertix.Ui.Main.MenuPrincipal;
 import com.scr.alertix.R;
-import com.scr.alertix.database.Database;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +32,7 @@ public class RegistrarTerceraPagina extends AppCompatActivity {
     String email,contrasenia,nombre,apellido,genero,idprofile;
 
     Button btnContinuar;
-    Database dbHelper;
+
     SQLiteDatabase db;
     UsuarioRepository repository;
 
@@ -57,8 +57,6 @@ public class RegistrarTerceraPagina extends AppCompatActivity {
         btnContinuar = findViewById(R.id.btnRegistrar3Continuar);
 
         repository = new UsuarioRepository();
-        dbHelper = new Database(this);
-        db = dbHelper.getWritableDatabase();
 
 
         btnContinuar.setOnClickListener(new View.OnClickListener() {

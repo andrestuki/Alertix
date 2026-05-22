@@ -25,6 +25,7 @@ public class PublicacionesController {
             Integer idReciente= publicacionesServices.agragarPublicaciones(publi);
             return new ResponseEntity<>(idReciente, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error al registrar: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

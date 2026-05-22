@@ -1,6 +1,6 @@
 package com.scr.Alertix_DB.Interface;
 
 public interface TipoCategoriasDTO {
-    int getIdCategoria();
+    Integer getIdCategoria();
     String getNombreCategoria();
 }

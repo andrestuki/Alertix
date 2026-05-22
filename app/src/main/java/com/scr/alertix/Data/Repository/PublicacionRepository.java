@@ -1,6 +1,7 @@
 package com.scr.alertix.Data.Repository;
 
 import com.scr.alertix.Data.Model.PublicacionDTO;
+import com.scr.alertix.Data.Model.PublicacionRequest;
 import com.scr.alertix.Data.Network.PublicacionesApi;
 import com.scr.alertix.Data.Network.RetrofitClient;
 
@@ -23,7 +24,7 @@ public class PublicacionRepository {
         call.enqueue(callback);
     }
 
-    public void crearPublicacion(PublicacionDTO publicacion, Callback<Void> callback) {
+    public void crearPublicacion(PublicacionRequest publicacion, Callback<Void> callback) {
         apiService.crearPublicacion(publicacion).enqueue(callback);
     }
 }
