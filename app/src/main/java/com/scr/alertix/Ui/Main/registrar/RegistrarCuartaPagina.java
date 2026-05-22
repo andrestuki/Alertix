@@ -1,4 +1,4 @@
-package com.scr.alertix.Ui.Adapter.Main;
+package com.scr.alertix.Ui.Main.registrar;
 
 import android.os.Bundle;
 
@@ -10,13 +10,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.scr.alertix.R;
 
-public class PaginaDeBienvenida2 extends AppCompatActivity {
+public class RegistrarCuartaPagina extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_pagina_de_bienvenida2);
+        setContentView(R.layout.activity_registrar_cuarta_pagina);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

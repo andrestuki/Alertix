@@ -1,10 +1,7 @@
-package com.scr.alertix.Ui.Adapter.Main;
+package com.scr.alertix.Ui.Main;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,19 +12,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.scr.alertix.Data.Model.LoginResponse;
 import com.scr.alertix.Data.Repository.UsuarioRepository;
 import com.scr.alertix.Utils.SessionManager;
-import com.scr.alertix.Utils.Url;
 import com.scr.alertix.R;
-import com.scr.alertix.database.Database;
-import com.scr.alertix.Ui.Adapter.Main.registrar.RegistrarPrimeraPagina;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.scr.alertix.Ui.Main.registrar.RegistrarPrimeraPagina;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -87,7 +76,7 @@ public class IniciarSesion extends AppCompatActivity {
 
                     if (res.getIdUsuario() > 0) {
                         SessionManager sessionManager = new SessionManager(IniciarSesion.this);
-                        sessionManager.saveSession(res.getIdUsuario());
+                        sessionManager.saveSession(res.getIdUsuario(),res.getIdProfile());
                         Intent intent = new Intent(IniciarSesion.this, MenuPrincipal.class);
                         intent.putExtra("idUsuario", res.getIdUsuario());
                         intent.putExtra("idProfile", res.getIdProfile());

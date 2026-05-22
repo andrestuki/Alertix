@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Ui.Adapter.Main.Publicar">
+    tools:context=".Ui.Main.Publicar">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -39,89 +39,122 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="90dp"
-                android:orientation="horizontal">
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="38dp"
-                    android:layout_height="51dp"
-                    app:srcCompat="@drawable/ic_warning_naranja" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="38dp"
+                        android:layout_height="51dp"
+                        app:srcCompat="@drawable/ic_warning_naranja" />
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Reportar Alerta"
+                        android:textSize="30sp"
+                        android:textStyle="normal|bold" />
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Seleccione un tipo de alerta">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/comboTipoAlerta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/textView17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="Reportar Alerta"
-                    android:textSize="30sp"
-                    android:textStyle="normal|bold" />
-
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Seleccione un tipo de alerta">
-
-                <AutoCompleteTextView
-                    android:id="@+id/comboTipoAlerta"
+                    android:id="@+id/textView18"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:inputType="none" />
+                    android:text="Descripcion:"
+                    android:textSize="20sp"
+                    android:textStyle="normal|bold" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textView18"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Descripcion:"
-                android:textSize="20sp"
-                android:textStyle="normal|bold" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp">
-
-                <EditText
-                    android:id="@+id/edtDescripcion"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="145dp"
-                    android:ems="10"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp">
 
-            <Button
-                android:id="@+id/btnPublicar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#FF8A00"
-                android:text="Publicar" />
+                    <EditText
+                        android:id="@+id/edtDescripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:ems="10"
+                        android:gravity="top"
+                        android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Evidencia (Foto):"
+                    android:textSize="20sp"
+                    android:textStyle="normal|bold" />
 
-    </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/imgPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp"
+                    android:background="#EEEEEE"
+                    android:scaleType="centerInside"
+                    android:src="@android:drawable/ic_menu_camera" />
+
+                <Button
+                    android:id="@+id/btnSeleccionarImagen"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="Seleccionar Foto"
+                    android:textColor="#0F5C8F" />
+
+                <Button
+                    android:id="@+id/btnPublicar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="#FF8A00"
+                    android:text="Publicar" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
 
 </LinearLayout>

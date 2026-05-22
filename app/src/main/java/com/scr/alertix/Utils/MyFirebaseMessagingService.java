@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.scr.alertix.R;
-import com.scr.alertix.Ui.Adapter.Main.MenuPrincipal;
+import com.scr.alertix.Ui.Main.MenuPrincipal;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

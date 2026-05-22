@@ -1,4 +1,4 @@
-package com.scr.alertix.Ui.Adapter.Main;
+package com.scr.alertix.Ui.Main;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

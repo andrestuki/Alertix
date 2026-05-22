@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -8,16 +9,22 @@
 
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Alertix">
-
-        <!-- Firebase Messaging Service -->
+        android:theme="@style/Theme.Alertix"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Ui.Main.registrar.RegistrarCuartaPagina"
+            android:exported="false" />
+        <activity
+            android:name=".Ui.Main.PanelConfiguracion"
+            android:exported="false"
+            android:label="@string/title_activity_panel_configuracion"
+            android:theme="@style/Theme.Alertix" /> <!-- Firebase Messaging Service -->
         <service
             android:name=".Utils.MyFirebaseMessagingService"
             android:exported="false">
@@ -31,25 +38,25 @@
             android:value="AIzaSyCrs0N0kJK_M9JkB653aWh19ci3J5qcC0E" />
 
         <activity
-            android:name=".Ui.Adapter.Main.SectorizacionActivity"
+            android:name=".Ui.Main.SectorizacionActivity"
             android:exported="false" />
         <activity
-            android:name=".Ui.Adapter.Main.MenuPrincipal"
+            android:name=".Ui.Main.MenuPrincipal"
             android:exported="false" />
         <activity
-            android:name=".Ui.Adapter.Main.Publicar"
+            android:name=".Ui.Main.Publicar"
             android:exported="false" />
         <activity
-            android:name=".Ui.Adapter.Main.registrar.RegistrarTerceraPagina"
+            android:name=".Ui.Main.registrar.RegistrarTerceraPagina"
             android:exported="false" />
         <activity
-            android:name=".Ui.Adapter.Main.registrar.RegistrarSegundaPagina"
+            android:name=".Ui.Main.registrar.RegistrarSegundaPagina"
             android:exported="false" />
         <activity
-            android:name=".Ui.Adapter.Main.registrar.RegistrarPrimeraPagina"
+            android:name=".Ui.Main.registrar.RegistrarPrimeraPagina"
             android:exported="false" />
         <activity
-            android:name=".Ui.Adapter.Main.IniciarSesion"
+            android:name=".Ui.Main.IniciarSesion"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,7 +65,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Ui.Adapter.Main.PaginaDeBienvenida2"
+            android:name=".Ui.Main.PaginaDeBienvenida2"
             android:exported="false" />
         <activity
             android:name=".Ui.Adapter.Main.MainActivity"

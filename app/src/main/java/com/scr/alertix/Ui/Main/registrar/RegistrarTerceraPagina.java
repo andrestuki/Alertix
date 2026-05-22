@@ -1,4 +1,4 @@
-package com.scr.alertix.Ui.Adapter.Main.registrar;
+package com.scr.alertix.Ui.Main.registrar;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.scr.alertix.Data.Model.RegisterRequest;
 import com.scr.alertix.Data.Repository.UsuarioRepository;
 import com.scr.alertix.Pojo.Usuario;
-import com.scr.alertix.Ui.Adapter.Main.MenuPrincipal;
+import com.scr.alertix.Ui.Main.MenuPrincipal;
 import com.scr.alertix.R;
 import com.scr.alertix.database.Database;
 

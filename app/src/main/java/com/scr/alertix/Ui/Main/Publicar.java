@@ -1,4 +1,4 @@
-package com.scr.alertix.Ui.Adapter.Main;
+package com.scr.alertix.Ui.Main;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -77,8 +77,6 @@ public class Publicar extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
                 tipoSeleccionado = adapterView.getItemAtPosition(position).toString();
-
-
             }
         });
 
@@ -97,7 +95,7 @@ public class Publicar extends AppCompatActivity {
                         values.put("descripcion", edtDescripcion.getText().toString());
                         values.put("fecha", fecha);
                         values.put("tipo", tipoSeleccionado);
-                        values.put("lugar", "Santa marta, cbn");
+                        values.put("lugar","");
                         values.put("img", "url");
                         
                         // Preparar objeto para la API
@@ -131,9 +129,6 @@ public class Publicar extends AppCompatActivity {
                     } else {
                         Toast.makeText(Publicar.this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
                     }
-
-
-
 
             }
         });

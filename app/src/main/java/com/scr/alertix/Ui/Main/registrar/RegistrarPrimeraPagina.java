@@ -1,4 +1,4 @@
-package com.scr.alertix.Ui.Adapter.Main.registrar;
+package com.scr.alertix.Ui.Main.registrar;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 public class SessionManager {
     private static final String PREF_NAME = "AlertixSession";
     private static final String KEY_USER_ID = "idUsuario";
+
+    private static final String  id_Profile="idProfile";
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
 
     private SharedPreferences pref;
@@ -19,8 +21,9 @@ public class SessionManager {
     }
 
     // Guardar sesión
-    public void saveSession(Long idUsuario) {
+    public void saveSession(Long idUsuario,int idProfile) {
         editor.putLong(KEY_USER_ID, idUsuario);
+        editor.putInt(id_Profile, idProfile);
         editor.putBoolean(KEY_IS_LOGGED_IN, true);
         editor.apply(); // Guarda los cambios asíncronamente
     }

@@ -1,16 +1,11 @@
-package com.scr.alertix.Ui.Adapter.Main;
+package com.scr.alertix.Ui.Main;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,10 +13,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scr.alertix.Data.Model.PublicacionDTO;
 import com.scr.alertix.Data.Repository.PublicacionRepository;
-import com.scr.alertix.Pojo.Publicaciones;
 import com.scr.alertix.R;
 import com.scr.alertix.Ui.Adapter.Adapters.PublicacionesAdapter;
-import com.scr.alertix.database.Database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +77,9 @@ public class MenuPrincipal extends AppCompatActivity {
             }
 
             else if (id == R.id.profile) {
-                Toast.makeText(this, "Abriendo Perfil...", Toast.LENGTH_SHORT).show();
-                // startActivity(new Intent(this, PerfilActivity.class));
+                Intent intent = new Intent(MenuPrincipal.this, PanelConfiguracion.class);
+                intent.putExtra("idUsuario", getIntent().getIntExtra("idUsuario", 0));
+                startActivity(intent);
                 return true;
             }
 
