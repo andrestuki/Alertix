@@ -14,17 +14,17 @@ public class PublicacionRequest {
     public void setIdDireccion(DireccionId idDireccion) { this.idDireccion = idDireccion; }
 
     public static class UsuarioId {
-        private int idUsuario;
-        public UsuarioId(int id) { this.idUsuario = id; }
+        private Long idUsuario;
+        public UsuarioId(Long id) { this.idUsuario = id; }
     }
 
     public static class CategoriaId {
-        private int idCategorias;
-        public CategoriaId(int id) { this.idCategorias = id; }
+        private Integer idCategorias;
+        public CategoriaId(Integer id) { this.idCategorias = id; }
     }
 
     public static class DireccionId {
-        private int idDireccion;
-        public DireccionId(int id) { this.idDireccion = id; }
+        private Integer idDireccion;
+        public DireccionId(Integer id) { this.idDireccion = id; }
     }
 }

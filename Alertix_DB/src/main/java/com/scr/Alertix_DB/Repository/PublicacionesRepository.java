@@ -22,7 +22,7 @@ public interface PublicacionesRepository extends JpaRepository<Publicaciones, Lo
     @Query(value = "CALL agregarPublicaciones(:idUsuario, :idCategoria, :descripcion, :idDireccion, :img)", nativeQuery = true)
     Integer agregarPublicaciones(
             @Param("idUsuario") Long idUsuario,
-            @Param("idCategoria") int idCategoria,
+            @Param("idCategoria") Long idCategoria,
             @Param("descripcion") String descripcion,
             @Param("idDireccion") Long idDireccion,
             @Param("img") String img

@@ -47,7 +47,7 @@ CREATE TABLE seguidores(
 );
 
 CREATE TABLE categorias(
-    idCategorias INT PRIMARY KEY AUTO_INCREMENT,
+    idCategorias INTEGER PRIMARY KEY AUTO_INCREMENT,
     nombreCategoria varchar(200)
 ); 
 
@@ -218,18 +218,17 @@ END;//
 -- PUBLICACIONES:
 
 CREATE PROCEDURE agregarPublicaciones(
-    IN p_idUsuario INT,
-    IN p_idCategorias INT,
+    IN p_idUsuario INTEGER,
+    IN p_idCategorias INTEGER,
     IN p_descripcion TEXT,
-    IN p_idDireccion INT, 
+    IN p_idDireccion INTEGER, 
     IN p_img LONGTEXT
 )
 BEGIN
-    -- Corregimos quitando el p_descripcion repetido
+
     INSERT INTO publicaciones(idUsuario, idCategorias, descripcion, fecha, idDireccion, img)
     VALUES(p_idUsuario, p_idCategorias, p_descripcion, NOW(), p_idDireccion, p_img);
     
-    -- Te recomiendo agregar esto para que Java reciba el ID de lo que creaste
     SELECT LAST_INSERT_ID() AS idNuevaPublicacion;
 END;//
 
@@ -597,8 +596,8 @@ INSERT  INTO usuarios (idUsuario, usuarioNombre, nombre, apellido, generoUsuario
 
 -- Publicaciones (Corregido para usar idDireccion)
 INSERT INTO publicaciones (idPublicacion, idUsuario, idCategorias, descripcion, idDireccion, img) VALUES
-(1, 2, 1, 'Robo detectado cerca del parque, tengan cuidado.', 1, 'robo_foto.jpg'),
-(2, 3, 2, 'Gran hueco en la vía principal, afecta el tráfico.', 3, 'hueco_via.png');
+(1, 2, 1, 'Robo detectado cerca del parque, tengan cuidado.', 1, null),
+(2, 3, 2, 'Gran hueco en la vía principal, afecta el tráfico.', 3, null);
 
 -- Comentarios
 INSERT  INTO comentarios (idComentarios, idUsuario, idPublicacion, fechaComentario, comentario) VALUES

@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class TipoCategoriasDTO {
     @SerializedName("idCategorias")
-    private int idCategoria;
+    private Integer idCategoria;
 
     @SerializedName("nombreCategoria")
     private String nombreCategoria;
 
-    public int getIdCategoria() {
+    public Integer getIdCategoria() {
         return idCategoria;
     }
 
-    public void setIdCategoria(int idCategoria) {
+    public void setIdCategoria(Integer idCategoria) {
         this.idCategoria = idCategoria;
     }
 

@@ -57,12 +57,40 @@ public class PublicacionesAdapter extends RecyclerView.Adapter<PublicacionesAdap
         }
 
 
-        String urlImagen = p.getImagenPublicacion();
-        if (urlImagen != null && !urlImagen.trim().isEmpty() && !urlImagen.equalsIgnoreCase("null")) {
+        String imgPublicacion = p.getImagenPublicacion();
+        if (imgPublicacion != null && !imgPublicacion.trim().isEmpty() && !imgPublicacion.equalsIgnoreCase("null")) {
             holder.imagen.setVisibility(View.VISIBLE);
-            Picasso.get()
-                    .load(urlImagen)
-                    .into(holder.imagen);
+
+            // Si empieza con http, significa que es una URL tradicional (usamos Picasso)
+            if (imgPublicacion.startsWith("http://") || imgPublicacion.startsWith("https://")) {
+                Picasso.get()
+                        .load(imgPublicacion)
+                        .into(holder.imagen);
+            }
+            // Si no es una URL, asumimos que es el String en Base64 que guardaste de la galería
+            else {
+                try {
+                    // Por si acaso el servidor le concatenó algún prefijo de Data URI
+                    if (imgPublicacion.contains(",")) {
+                        imgPublicacion = imgPublicacion.split(",")[1];
+                    }
+
+                    // Decodificamos el string Base64 a bytes
+                    byte[] decodedString = android.util.Base64.decode(imgPublicacion, android.util.Base64.DEFAULT);
+                    // Convertimos los bytes en un Bitmap que ImageView sí puede pintar
+                    android.graphics.Bitmap decodedByte = android.graphics.BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                    if (decodedByte != null) {
+                        holder.imagen.setImageBitmap(decodedByte);
+                    } else {
+                        // Si da null es porque el String llegó corrupto o incompleto de la DB
+                        holder.imagen.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    holder.imagen.setVisibility(View.GONE);
+                }
+            }
         } else {
             holder.imagen.setVisibility(View.GONE);
         }

@@ -6,8 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.View;
-import android.widget.AdapterView;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -23,18 +22,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.scr.alertix.Data.Model.PublicacionDTO;
 import com.scr.alertix.Data.Model.PublicacionRequest;
 import com.scr.alertix.Data.Model.TipoCategoriasDTO;
 import com.scr.alertix.Data.Repository.CategoriasRepository;
 import com.scr.alertix.Data.Repository.PublicacionRepository;
 import com.scr.alertix.R;
+import com.scr.alertix.Utils.SessionManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +43,8 @@ public class Publicar extends AppCompatActivity {
     Button btnPublicar, btnSeleccionarImagen;
     ImageView imgPreview;
 
-    int idUsuario;
+    SessionManager sessionManager;
+    Long idUsuario;
     PublicacionRepository repository;
     CategoriasRepository catRepository;
     private List<TipoCategoriasDTO> listaCategoriasGlobal;
@@ -77,6 +75,9 @@ public class Publicar extends AppCompatActivity {
             return insets;
         });
 
+        sessionManager = new SessionManager(this);
+
+
         comboTipoAlerta = findViewById(R.id.comboTipoAlerta);
         edtDescripcion = findViewById(R.id.edtDescripcion);
         btnPublicar = findViewById(R.id.btnPublicar);
@@ -95,36 +96,44 @@ public class Publicar extends AppCompatActivity {
         comboTipoAlerta.setOnItemClickListener((adapterView, view, position, id) -> {
             TipoCategoriasDTO seleccionado = (TipoCategoriasDTO) adapterView.getItemAtPosition(position);
             if (seleccionado != null) {
-                idCategoriaDetectado = seleccionado.getIdCategoria();
+                Integer idCat = seleccionado.getIdCategoria();
+                idCategoriaDetectado = (idCat != null) ? idCat : 0;
                 tipoSeleccionado = seleccionado.getNombreCategoria();
+
+                Log.d("API_CAT",
+                        "ID: " + seleccionado.getIdCategoria()
+                                + " Nombre: " + seleccionado.getNombreCategoria());
             }
         });
 
         btnPublicar.setOnClickListener(view -> {
-            idUsuario = i.getIntExtra("idUsuario", 0);
+            idUsuario = sessionManager.getUserId();
             String descripcion = edtDescripcion.getText().toString().trim();
             String textoTipoAlerta = comboTipoAlerta.getText().toString().trim();
 
             // RESPALDO: Si el usuario escribió y no hizo clic, buscamos el ID por texto
             if (idCategoriaDetectado == 0 && !textoTipoAlerta.isEmpty() && listaCategoriasGlobal != null) {
                 for (TipoCategoriasDTO cat : listaCategoriasGlobal) {
-                    if (cat.getNombreCategoria().equalsIgnoreCase(textoTipoAlerta)) {
-                        idCategoriaDetectado = cat.getIdCategoria();
+                    if (cat.getNombreCategoria() != null && cat.getNombreCategoria().equalsIgnoreCase(textoTipoAlerta)) {
+                        Integer idCat = cat.getIdCategoria();
+                        idCategoriaDetectado = (idCat != null) ? idCat : 0;
                         tipoSeleccionado = cat.getNombreCategoria();
+                        Log.d("API_CAT", "Encontrado por texto: " + idCategoriaDetectado);
                         break;
                     }
                 }
             }
 
-            // Validaciones específicas para saber qué falla
             if (descripcion.isEmpty()) {
                 Toast.makeText(Publicar.this, "Escribe una descripción para el reporte", Toast.LENGTH_SHORT).show();
-            }  else {
+            } else if (idCategoriaDetectado == 0) {
+                Toast.makeText(Publicar.this, "Selecciona un tipo de alerta", Toast.LENGTH_SHORT).show();
+            } else {
                 PublicacionRequest nuevaP = new PublicacionRequest();
                 nuevaP.setDescripcion(descripcion);
                 nuevaP.setImg(base64Image);
                 nuevaP.setIdUsuarios(new PublicacionRequest.UsuarioId(idUsuario));
-                nuevaP.setCategorias(new PublicacionRequest.CategoriaId(1));
+                nuevaP.setCategorias(new PublicacionRequest.CategoriaId(idCategoriaDetectado));
                 nuevaP.setIdDireccion(new PublicacionRequest.DireccionId(1));
 
                 repository.crearPublicacion(nuevaP, new Callback<Void>() {
@@ -153,6 +162,8 @@ public class Publicar extends AppCompatActivity {
             public void onResponse(Call<List<TipoCategoriasDTO>> call, Response<List<TipoCategoriasDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     listaCategoriasGlobal = response.body();
+                    Log.d("API_DEBUG", "JSON Recibido: " + new com.google.gson.Gson().toJson(listaCategoriasGlobal));
+
                     ArrayAdapter<TipoCategoriasDTO> adapter = new ArrayAdapter<>(
                             Publicar.this,
                             android.R.layout.simple_list_item_1,
@@ -168,8 +179,6 @@ public class Publicar extends AppCompatActivity {
             }
         });
     }
-
-    // CORRECCIÓN: Redimensionar y comprimir para evitar "Data too long" en DB
     private String uriToBase64(Uri uri) {
         try {
             InputStream is = getContentResolver().openInputStream(uri);
@@ -182,8 +191,13 @@ public class Publicar extends AppCompatActivity {
             int height = bitmap.getHeight();
             if (width > maxSize || height > maxSize) {
                 float ratio = (float) width / (float) height;
-                if (ratio > 1) { width = maxSize; height = (int) (maxSize / ratio); }
-                else { height = maxSize; width = (int) (maxSize * ratio); }
+                if (ratio > 1) {
+                    width = maxSize;
+                    height = (int) (maxSize / ratio);
+                } else {
+                    height = maxSize;
+                    width = (int) (maxSize * ratio);
+                }
                 bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
             }
 
