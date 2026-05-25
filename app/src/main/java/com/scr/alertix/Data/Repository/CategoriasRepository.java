@@ -1,9 +1,7 @@
 package com.scr.alertix.Data.Repository;
 
-import com.scr.alertix.Data.Model.PublicacionDTO;
-import com.scr.alertix.Data.Model.TipoCategoriasDTO;
+import com.scr.alertix.Data.Model.DTO.TipoCategoriasDTO;
 import com.scr.alertix.Data.Network.CategoriasApi;
-import com.scr.alertix.Data.Network.PublicacionesApi;
 import com.scr.alertix.Data.Network.RetrofitClient;
 
 import java.util.List;

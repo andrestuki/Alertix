@@ -14,7 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.scr.alertix.Data.Model.RegisterRequest;
+import com.scr.alertix.Data.Model.Request.RegisterRequest;
 import com.scr.alertix.Data.Repository.UsuarioRepository;
 import com.scr.alertix.Pojo.Usuario;
 import com.scr.alertix.Ui.Main.MenuPrincipal;
@@ -109,10 +109,6 @@ public class RegistrarTerceraPagina extends AppCompatActivity {
                                         "Falla de red: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
                             }
                         });
-
-
-
-
                     } else {
                         edtConfirmarContrasenia.setError("Las contraseñas no coinciden");
                     }

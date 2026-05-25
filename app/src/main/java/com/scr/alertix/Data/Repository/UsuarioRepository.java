@@ -1,8 +1,8 @@
 package com.scr.alertix.Data.Repository;
 
-import com.scr.alertix.Data.Model.LoginRequest;
-import com.scr.alertix.Data.Model.LoginResponse;
-import com.scr.alertix.Data.Model.RegisterRequest;
+import com.scr.alertix.Data.Model.Request.LoginRequest;
+import com.scr.alertix.Data.Model.Response.LoginResponse;
+import com.scr.alertix.Data.Model.Request.RegisterRequest;
 import com.scr.alertix.Data.Network.RetrofitClient;
 import com.scr.alertix.Data.Network.UsuarioApi;
 import com.scr.alertix.Pojo.Usuario;

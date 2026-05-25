@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 public class Comentarios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idComentiarios;
+    private Long idComentarios; // Corregido typo: idComentiarios -> idComentarios
 
-    private Long idComentarioHija=null;
+    @JsonProperty("idComentarioHijo")
+    private Long idComentarioHijo = null; // Corregido: Hija -> Hijo y forzado nombre JSON
 
     @ManyToOne
     @JoinColumn(name = "fk_com_usuario")
@@ -32,5 +33,4 @@ public class Comentarios {
     @NotBlank
     @Column(columnDefinition = "TEXT")
     private String comentario;
-
 }

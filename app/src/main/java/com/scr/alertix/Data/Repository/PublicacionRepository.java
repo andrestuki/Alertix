@@ -1,7 +1,7 @@
 package com.scr.alertix.Data.Repository;
 
-import com.scr.alertix.Data.Model.PublicacionDTO;
-import com.scr.alertix.Data.Model.PublicacionRequest;
+import com.scr.alertix.Data.Model.DTO.PublicacionDTO;
+import com.scr.alertix.Data.Model.Request.PublicacionRequest;
 import com.scr.alertix.Data.Network.PublicacionesApi;
 import com.scr.alertix.Data.Network.RetrofitClient;
 
@@ -19,8 +19,8 @@ public class PublicacionRepository {
     }
 
     // Esta función es la que el Activity va a llamar
-    public void obtenerFeed(Callback<List<PublicacionDTO>> callback) {
-        Call<List<PublicacionDTO>> call = apiService.getPublicaciones();
+    public void obtenerFeed(Callback<List<PublicacionDTO>> callback,Long idUsuario) {
+        Call<List<PublicacionDTO>> call = apiService.getPublicaciones(idUsuario);
         call.enqueue(callback);
     }
 

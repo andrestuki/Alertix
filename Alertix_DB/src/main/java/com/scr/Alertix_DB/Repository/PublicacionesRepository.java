@@ -27,8 +27,8 @@ public interface PublicacionesRepository extends JpaRepository<Publicaciones, Lo
             @Param("idDireccion") Long idDireccion,
             @Param("img") String img
     );
-    @Query(value = "CALL mostrarPublicacion()", nativeQuery = true)
-    List<PublicacionDetalleDTO> mostrarPublicacion();
+    @Query(value = "CALL mostrarPublicacion(:idUsuario)", nativeQuery = true)
+    List<PublicacionDetalleDTO> mostrarPublicacion(@Param("idUsuario") Long idUsuario);
 
     @Procedure(procedureName = "filtrarPublicaciones")
     List<PublicacionDetalleDTO> filtrarPublicaciones(Integer idCategoria, Integer direccion);

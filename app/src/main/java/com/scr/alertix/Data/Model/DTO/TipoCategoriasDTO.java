@@ -1,4 +1,4 @@
-package com.scr.alertix.Data.Model;
+package com.scr.alertix.Data.Model.DTO;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -20,46 +20,48 @@ public class ComentariosController {
     @PostMapping("/comentar")
     public ResponseEntity<?> comentar(@Valid @RequestBody Comentarios com){
         try{
-           Integer comentario= comentariosServices.comentar(com);
+           Integer comentario = comentariosServices.comentar(com);
             return new ResponseEntity<>(comentario, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("error a el comentar: "+ e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error al comentar: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/Responder")
     public ResponseEntity<?> responderComentario(@Valid @RequestBody Comentarios com){
-        try{
-            Integer total=comentariosServices.guardarRespuesta(com);
+        try {
+            // AUDITORÍA DE ENTRADA: Verificamos qué llega realmente al servidor
+            System.out.println("--- LOG DE AUDITORÍA (SERVIDOR) ---");
+            System.out.println("ID Padre Recibido: " + com.getIdComentarioHijo());
+            System.out.println("Texto: " + com.getComentario());
 
-            return new ResponseEntity<>(total,HttpStatus.CREATED);
-
+            Integer total = comentariosServices.guardarRespuesta(com);
+            return new ResponseEntity<>(total, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error en respuesta: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
+
     @GetMapping("/mostrar-comentario")
-    public ResponseEntity<?>mostrarComentarios(@RequestParam Long idPublicacion){
-        try{
-            List<ComentariosDetalleDTO> comentarios=comentariosServices.mostrarComentarios(idPublicacion);
-            if(comentarios.isEmpty()){
-                return new ResponseEntity<>("comentarios no encontrado", HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> mostrarComentarios(@RequestParam Long idPublicacion){
+        try {
+            List<ComentariosDetalleDTO> comentarios = comentariosServices.mostrarComentarios(idPublicacion);
+            if (comentarios.isEmpty()) {
+                return new ResponseEntity<>("Comentarios no encontrados", HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(comentarios, HttpStatus.OK);
-
         } catch (Exception e) {
-            return new ResponseEntity<>("error a el comentar: "+ e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error al mostrar: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/eliminar-comentario")
-    public ResponseEntity<?> eliminarComentario( @RequestParam Long idComentario,@RequestParam Long idUsuario){
-        try{
-           Integer total= comentariosServices.eliminarComentario( idComentario,idUsuario);
+    public ResponseEntity<?> eliminarComentario(@RequestParam Long idComentario, @RequestParam Long idUsuario){
+        try {
+           Integer total = comentariosServices.eliminarComentario(idComentario, idUsuario);
             return new ResponseEntity<>(total, HttpStatus.CREATED);
         } catch (Exception e) {
-           return new ResponseEntity<>("error: "+ e.getMessage(), HttpStatus.BAD_REQUEST);
+           return new ResponseEntity<>("Error al eliminar: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

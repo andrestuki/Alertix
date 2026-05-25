@@ -12,7 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.scr.alertix.Data.Model.LoginResponse;
+import com.scr.alertix.Data.Model.Response.LoginResponse;
 import com.scr.alertix.Data.Repository.UsuarioRepository;
 import com.scr.alertix.Utils.SessionManager;
 import com.scr.alertix.R;
@@ -86,7 +86,6 @@ public class IniciarSesion extends AppCompatActivity {
                         finish();
                     }
                 } else if (response.code() == 401) {
-                // AQUÍ manejas las credenciales incorrectas (Código 401)
                 Toast.makeText(IniciarSesion.this, "Usuario/contraseña incorrectos", Toast.LENGTH_SHORT).show();
                 }
                 else {

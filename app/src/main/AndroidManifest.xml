@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Alertix"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Ui.Main.ComentariosModal"
+            android:exported="false" />
+        <activity
             android:name=".Ui.Main.registrar.RegistrarCuartaPagina"
             android:exported="false" />
         <activity

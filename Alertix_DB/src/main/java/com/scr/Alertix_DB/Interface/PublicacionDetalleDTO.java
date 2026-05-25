@@ -14,4 +14,5 @@ public interface PublicacionDetalleDTO {
     Integer getCantidadLikes();
     Integer getCantidadComentarios();
     Integer getCantidadCompartidos();
+    Integer getIsLiked();
 }

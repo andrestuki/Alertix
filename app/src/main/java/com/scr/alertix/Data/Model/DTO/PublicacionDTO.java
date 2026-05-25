@@ -1,4 +1,4 @@
-package com.scr.alertix.Data.Model;
+package com.scr.alertix.Data.Model.DTO;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -40,8 +40,8 @@ public class PublicacionDTO {
     @SerializedName("cantidadCompartidos")
     private int compartidos;
 
-    // Estado local para el Like
-    private boolean isLiked = false;
+    @SerializedName("isLiked")
+    private int isLiked;
 
     public int getIdUsuario() {
         return idUsuario;
@@ -52,11 +52,11 @@ public class PublicacionDTO {
     }
 
     public boolean isLiked() {
-        return isLiked;
+        return isLiked == 1; // Convertir 1 a true, 0 a false
     }
 
     public void setLiked(boolean liked) {
-        isLiked = liked;
+        this.isLiked = liked ? 1 : 0; // Convertir true a 1, false a 0
     }
 
     public String getNombreUsuario() {

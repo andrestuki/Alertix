@@ -1,4 +1,4 @@
-package com.scr.alertix.Data.Model;
+package com.scr.alertix.Data.Model.Request;
 
 public class RegisterRequest {
     private String nombre;

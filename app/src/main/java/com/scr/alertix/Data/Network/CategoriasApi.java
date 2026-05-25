@@ -1,6 +1,6 @@
 package com.scr.alertix.Data.Network;
 
-import com.scr.alertix.Data.Model.TipoCategoriasDTO;
+import com.scr.alertix.Data.Model.DTO.TipoCategoriasDTO;
 
 import java.util.List;
 

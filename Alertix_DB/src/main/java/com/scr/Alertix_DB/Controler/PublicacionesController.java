@@ -31,9 +31,9 @@ public class PublicacionesController {
     }
 
     @GetMapping("/mostrarPublicaciones")
-    public ResponseEntity<?> mostrarPublicaciones() {
+    public ResponseEntity<?> mostrarPublicaciones(@RequestParam Long idUsuario) {
         try {
-            List<PublicacionDetalleDTO> lista = publicacionesServices.mostrarPublicacion();
+            List<PublicacionDetalleDTO> lista = publicacionesServices.mostrarPublicacion(idUsuario);
 
             if (lista.isEmpty()) {
                 return new ResponseEntity<>("No hay publicaciones para mostrar", HttpStatus.NO_CONTENT);

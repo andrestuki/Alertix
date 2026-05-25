@@ -1,5 +1,6 @@
 package com.scr.Alertix_DB.Controler;
 
+import com.scr.Alertix_DB.Interface.LikesDetalleDTO;
 import com.scr.Alertix_DB.Model.Likes;
 import com.scr.Alertix_DB.Services.LikesServices;
 import jakarta.validation.Valid;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -17,8 +20,11 @@ public class LikesController {
     @PostMapping("/Like")
     public ResponseEntity<?> darLike(@Valid @RequestBody Likes likes){
         try {
-           Integer like= likesServices.darLike(likes);
-            return new ResponseEntity<>(like, HttpStatus.CREATED);
+            List<LikesDetalleDTO> result = likesServices.darLike(likes);
+            if (result != null && !result.isEmpty()) {
+                return new ResponseEntity<>(result.get(0), HttpStatus.CREATED); // Devolver el primero
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>("Fallo a el dar like: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }

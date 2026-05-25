@@ -23,9 +23,8 @@ public class PublicacionesServices {
     }
 
 
-    public List<PublicacionDetalleDTO> mostrarPublicacion(){
-
-        return publicacionesRepository.mostrarPublicacion();
+    public List<PublicacionDetalleDTO> mostrarPublicacion(Long idUsuario){
+        return publicacionesRepository.mostrarPublicacion(idUsuario);
     }
 
 

@@ -21,7 +21,8 @@ public class ComentariosServices {
 
     @Transactional
     public Integer guardarRespuesta(Comentarios com) {
-        return comentariosRepository.responderComentario(com.getIdUsuario().getIdUsuario(),com.getIdPublicacion().getIdPublicacion(),com.getIdComentarioHija(), com.getComentario());
+        // Corregido: Usar getIdComentarioHijo() en lugar de Hija
+        return comentariosRepository.responderComentario(com.getIdUsuario().getIdUsuario(),com.getIdPublicacion().getIdPublicacion(),com.getIdComentarioHijo(), com.getComentario());
     }
 
     @Transactional
@@ -32,6 +33,4 @@ public class ComentariosServices {
     public Integer eliminarComentario( Long idComentario,Long idUsuario){
         return comentariosRepository.eliminarComentario( idComentario, idUsuario);
     }
-
-
 }

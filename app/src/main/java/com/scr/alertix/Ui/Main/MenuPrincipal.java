@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.scr.alertix.Data.Model.PublicacionDTO;
+import com.scr.alertix.Data.Model.DTO.PublicacionDTO;
 import com.scr.alertix.Data.Repository.PublicacionRepository;
 import com.scr.alertix.R;
 import com.scr.alertix.Ui.Adapter.Adapters.PublicacionesAdapter;
+import com.scr.alertix.Utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ public class MenuPrincipal extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     PublicacionRepository repository;
+    SessionManager sessionManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         listaPublicaciones = new ArrayList<>();
         repository = new PublicacionRepository();
+        sessionManager = new SessionManager(this);
 
         adapter = new PublicacionesAdapter(listaPublicaciones);
         rvPublicacion.setAdapter(adapter);
@@ -88,7 +92,12 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
     private void obtenerDatosDeApi() {
-        // Usamos el repositorio que creamos en data/repository
+        Long idUsuario = sessionManager.getUserId();
+        if (idUsuario == null) {
+            Toast.makeText(this, "Error al obtener el ID de usuario", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         repository.obtenerFeed(new Callback<List<PublicacionDTO>>() {
             @Override
             public void onResponse(Call<List<PublicacionDTO>> call, Response<List<PublicacionDTO>> response) {
@@ -105,7 +114,7 @@ public class MenuPrincipal extends AppCompatActivity {
             public void onFailure(Call<List<PublicacionDTO>> call, Throwable t) {
                 Toast.makeText(MenuPrincipal.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
-        });
+        },idUsuario);
     }
 
     @Override

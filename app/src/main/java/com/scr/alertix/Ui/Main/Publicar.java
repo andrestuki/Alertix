@@ -22,8 +22,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.scr.alertix.Data.Model.PublicacionRequest;
-import com.scr.alertix.Data.Model.TipoCategoriasDTO;
+import com.scr.alertix.Data.Model.Request.PublicacionRequest;
+import com.scr.alertix.Data.Model.DTO.TipoCategoriasDTO;
 import com.scr.alertix.Data.Repository.CategoriasRepository;
 import com.scr.alertix.Data.Repository.PublicacionRepository;
 import com.scr.alertix.R;
@@ -76,7 +76,6 @@ public class Publicar extends AppCompatActivity {
         });
 
         sessionManager = new SessionManager(this);
-
 
         comboTipoAlerta = findViewById(R.id.comboTipoAlerta);
         edtDescripcion = findViewById(R.id.edtDescripcion);

@@ -15,7 +15,9 @@ CREATE TABLE direcciones(
     ciudad varchar(100), 
     departamento varchar(100),  
     municipio varchar(100), 
-    codigoPostal varchar(20)
+    codigoPostal varchar(20),
+    latitud DECIMAL(10, 8), 
+    longitud DECIMAL(11, 8)
 );
 
 CREATE TABLE usuarios (
@@ -118,6 +120,7 @@ CREATE TABLE likes(
     idLikes INTEGER PRIMARY KEY AUTO_INCREMENT,
     idUsuario integer ,
     idPublicacion integer,
+    isLiked boolean,
     fechaLike datetime,
     CONSTRAINT fk_lik_usuario FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario) ON DELETE CASCADE,
     CONSTRAINT fk_lik_publicacion FOREIGN KEY (idPublicacion) REFERENCES publicaciones(idPublicacion) ON DELETE CASCADE
@@ -232,7 +235,7 @@ BEGIN
     SELECT LAST_INSERT_ID() AS idNuevaPublicacion;
 END;//
 
-CREATE PROCEDURE mostrarPublicacion()
+CREATE PROCEDURE mostrarPublicacion(p_idUsuario INT)
 BEGIN
     SELECT 
         u.usuarioNombre,
@@ -245,7 +248,8 @@ BEGIN
         c.nombreCategoria,
         (SELECT COUNT(*) FROM likes l WHERE l.idPublicacion = p.idPublicacion) AS cantidadLikes,
         (SELECT COUNT(*) FROM comentarios cm WHERE cm.idPublicacion = p.idPublicacion) AS cantidadComentarios,
-        (SELECT COUNT(*) FROM compartidos cp WHERE cp.idPublicacion = p.idPublicacion) AS cantidadCompartidos
+        (SELECT COUNT(*) FROM compartidos cp WHERE cp.idPublicacion = p.idPublicacion) AS cantidadCompartidos,
+        EXISTS(SELECT 1 FROM likes WHERE idPublicacion = p.idPublicacion AND idUsuario = p_idUsuario) AS isLiked
     FROM usuarios u  
     INNER JOIN publicaciones p ON u.idUsuario = p.idUsuario 
     INNER JOIN categorias c ON p.idCategorias = c.idCategorias
@@ -319,13 +323,13 @@ END;//
 CREATE PROCEDURE responderComentario(
     p_idUsuario INTEGER,
     p_idPublicacion INTEGER,
-    p_idComentarioPadre INTEGER,
+    p_idComentarioHijo INTEGER,
     p_comentario TEXT
 ) 
 BEGIN
     -- Corregimos el INSERT añadiendo la columna 'comentario'
     INSERT INTO comentarios(idUsuario, idPublicacion, idComentarioHijo, comentario, fechaComentario) 
-    VALUES (p_idUsuario, p_idPublicacion, p_idComentarioPadre, p_comentario, NOW());
+    VALUES (p_idUsuario, p_idPublicacion, p_idComentarioHijo, p_comentario, NOW());
 
     -- Dejamos SOLO el conteo para que Java reciba el total
     SELECT COUNT(*) AS total FROM comentarios WHERE idPublicacion = p_idPublicacion;
@@ -366,12 +370,13 @@ BEGIN
         DELETE FROM likes WHERE idUsuario = p_idUsuario AND idPublicacion = p_idPublicacion;
     ELSE
      
-        INSERT INTO likes(idUsuario, idPublicacion, fechaLike)
-        VALUES(p_idUsuario, p_idPublicacion, NOW());
+        INSERT INTO likes(idUsuario, idPublicacion,isLiked, fechaLike)
+        VALUES(p_idUsuario, p_idPublicacion, true,NOW());
     END IF;
 
-    -- Devolvemos el total de likes actualizado para la APK
-    SELECT COUNT(*) AS total FROM likes WHERE idPublicacion = p_idPublicacion;
+    SELECT 
+        (SELECT COUNT(*) FROM likes WHERE idPublicacion = p_idPublicacion) AS cantidadLikes,
+        EXISTS(SELECT 1 FROM likes WHERE idUsuario = p_idUsuario AND idPublicacion = p_idPublicacion) AS isLiked;
 END;//
 
 -- SEGUIR:
@@ -543,6 +548,26 @@ BEGIN
     ORDER BY b.fechaBaneo DESC;
 END;//
 
+-- Direcciones:
+
+CREATE PROCEDURE registrarDirecciones(
+    p_barrio varchar(100),
+    p_direccion varchar(200),
+    p_pais varchar(100),
+    p_ciudad varchar(100),
+    p_departamento varchar(100),
+    p_municipio varchar(100),
+    p_codigoPostal varchar(20),
+    p_latitud decimal(10,8),
+    p_longitud decimal(11,8)
+)
+BEGIN
+    INSERT INTO direcciones(barrio, direccion, pais, ciudad, departamento, municipio, codigoPostal, latitud, longitud)
+    VALUES(p_barrio, p_direccion, p_pais, p_ciudad, p_departamento, p_municipio, p_codigoPostal, p_latitud, p_longitud);
+    
+    SELECT LAST_INSERT_ID() AS idDireccion;
+END;//
+
 
 DELIMITER ;
 
@@ -604,18 +629,29 @@ INSERT  INTO comentarios (idComentarios, idUsuario, idPublicacion, fechaComentar
 (1, 3, 1, NOW(), 'Gracias por avisar, por allá paso siempre.'),
 (2, 1, 2, NOW(), 'Reportado a la secretaría de movilidad.');
 
+INSERT INTO comentarios (idComentarios, idComentarioHijo, idUsuario, idPublicacion, fechaComentario, comentario) VALUES
+(3, NULL, 2, 1, '2026-05-24 10:00:00', '¿Alguien sabe si llegó la policía por allá?');
+
+-- Respuestas al Comentario 3 (Comentarios Hijos)
+INSERT INTO comentarios (idComentarios, idComentarioHijo, idUsuario, idPublicacion, fechaComentario, comentario) VALUES
+(4, 3, 3, 1, '2026-05-24 10:05:00', 'Yo pasé hace 5 minutos y no vi a ninguna patrulla, Juan.'),
+(5, 3, 1, 1, '2026-05-24 10:12:00', 'Acabamos de enviar la alerta central a las unidades del cuadrante.');
+
+
+-- =========================================================================
+-- HILO DE COMENTARIOS PARA LA PUBLICACIÓN 2 (Gran hueco en la vía...)
+-- =========================================================================
+
+-- Respuestas al Comentario Padre 2 (El que ya tenías insertado de Admin idComentarios = 2)
+INSERT INTO comentarios (idComentarios, idComentarioHijo, idUsuario, idPublicacion, fechaComentario, comentario) VALUES
+(6, 2, 2, 2, '2026-05-24 11:30:00', 'Excelente, ojalá pavimenten rápido porque ayer casi se cae una moto ahí.'),
+(7, 2, 3, 2, '2026-05-24 11:45:00', '¡Totalmente de acuerdo! Esa vía es super peligrosa de noche.');
+
 -- Likes
 INSERT  INTO likes (idLikes, idUsuario, idPublicacion, fechaLike) VALUES
 (1, 1, 1, NOW()),
 (2, 3, 1, NOW());
 
-select * from usuarios;
-
-select * from reportes;
-
-select * from publicaciones;
-
-DESCRIBE publicaciones;
 
 
                 

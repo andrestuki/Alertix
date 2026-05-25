@@ -1,24 +1,38 @@
 package com.scr.alertix.Ui.Adapter.Adapters;
 
-import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.scr.alertix.Data.Model.PublicacionDTO;
+import com.scr.alertix.Ui.Main.ComentariosModal;
+import com.scr.alertix.Data.Model.Request.LikeRequest;
+import com.scr.alertix.Data.Model.Response.LikesResponse;
+import com.scr.alertix.Data.Model.DTO.PublicacionDTO;
+import com.scr.alertix.Data.Repository.LikesRepository;
 import com.scr.alertix.R;
+import com.scr.alertix.Utils.SessionManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PublicacionesAdapter extends RecyclerView.Adapter<PublicacionesAdapter.PublicacionViewHolder> {
     private ArrayList<PublicacionDTO> publicaciones;
+    SessionManager sessionManager;
+
 
     public PublicacionesAdapter(ArrayList<PublicacionDTO> publicaciones) {
         this.publicaciones = publicaciones;
@@ -95,23 +109,58 @@ public class PublicacionesAdapter extends RecyclerView.Adapter<PublicacionesAdap
             holder.imagen.setVisibility(View.GONE);
         }
 
-        // 3. Lógica del Like (Corazón)
+
         actualizarColorLike(holder.btnLike, p.isLiked());
 
-        holder.btnLike.setOnClickListener(v -> {
-            boolean nuevoEstado = !p.isLiked();
-            p.setLiked(nuevoEstado);
-            
-            // Actualizar contador localmente
-            if (nuevoEstado) {
-                p.setLikes(p.getLikes() + 1);
-            } else {
-                p.setLikes(p.getLikes() - 1);
-            }
-            holder.countLikes.setText(String.valueOf(p.getLikes()));
+        android.content.Context context = holder.itemView.getContext();
 
-            actualizarColorLike(holder.btnLike, nuevoEstado);
+
+        if (sessionManager == null) {
+            sessionManager = new SessionManager(context);
+        }
+        LikesRepository likesRepo = new LikesRepository();
+
+        holder.btnLike.setOnClickListener(v -> {
+            Long idUsuarioActual = sessionManager.getUserId();
+
+            LikeRequest request = new LikeRequest();
+            request.setIdPublicacion(new LikeRequest.PublicacionId(p.getId()));
+            request.setIdUsuario(new LikeRequest.UsuarioId(idUsuarioActual));
+
+            likesRepo.darLike(request, new Callback<LikesResponse>() {
+                @Override
+                public void onResponse(Call<LikesResponse> call, Response<LikesResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        LikesResponse res = response.body();
+
+                        p.setLiked(res.getIsLiked());
+                        p.setLikes(res.getCantidadLikes());
+
+                        holder.countLikes.setText(String.valueOf(res.getCantidadLikes()));
+                        actualizarColorLike(holder.btnLike, p.isLiked());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LikesResponse> call, Throwable t) {
+                    Toast.makeText(context, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("API_DEBUG", "Error de conexión: " + t.getMessage());
+                }
+            });
         });
+
+        holder.btnComment.setOnClickListener(v -> {
+            ComentariosModal bottomSheet = new ComentariosModal();
+
+            Bundle args = new Bundle();
+
+            args.putLong("idPublicacion", p.getId());
+
+            bottomSheet.setArguments(args);
+            bottomSheet.show(((AppCompatActivity)context).getSupportFragmentManager(), "TAG");
+        });
+
+
     }
 
     private void actualizarColorLike(ImageButton btn, boolean isLiked) {
@@ -120,7 +169,6 @@ public class PublicacionesAdapter extends RecyclerView.Adapter<PublicacionesAdap
         } else {
             btn.setImageResource(R.drawable.ic_heart);
         }
-        // Quitamos cualquier filtro de color previo para que se vean los colores originales del vector
         btn.setColorFilter(null);
     }
 

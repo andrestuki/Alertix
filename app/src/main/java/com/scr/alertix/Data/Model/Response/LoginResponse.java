@@ -1,4 +1,4 @@
-package com.scr.alertix.Data.Model;
+package com.scr.alertix.Data.Model.Response;
 
 public class LoginResponse {
     private Long idUsuario;

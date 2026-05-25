@@ -1,4 +1,4 @@
-package com.scr.alertix.Data.Model;
+package com.scr.alertix.Data.Model.Request;
 
 public class PublicacionRequest {
     private String descripcion;

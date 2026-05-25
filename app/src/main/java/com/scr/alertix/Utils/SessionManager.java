@@ -3,6 +3,8 @@ package com.scr.alertix.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.scr.alertix.Ui.Adapter.Adapters.PublicacionesAdapter;
+
 public class SessionManager {
     private static final String PREF_NAME = "AlertixSession";
     private static final String KEY_USER_ID = "idUsuario";
@@ -18,6 +20,10 @@ public class SessionManager {
         this.context = context;
         pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
+    }
+
+    public SessionManager(PublicacionesAdapter publicacionesAdapter) {
+
     }
 
     // Guardar sesión

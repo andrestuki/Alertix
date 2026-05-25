@@ -3,7 +3,7 @@ package com.scr.alertix.Pojo;
 public class Publicaciones {
     private int idPublicacion;
     private String descripcion;
-    private String nombreUsuario; // Ahora guardamos el nombre real
+    private String nombreUsuario;
     private String img;
     private String tipo;
     private String lugar;

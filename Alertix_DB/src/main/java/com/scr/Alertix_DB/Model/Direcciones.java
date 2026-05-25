@@ -28,6 +28,10 @@ public class Direcciones {
 
     private String codigoPostal;
 
+    private double latitud;
+
+    private double longitud;
+
     @OneToMany(mappedBy = "idDireccion")
     @JsonIgnore
     private List<Usuarios> usuarios;
