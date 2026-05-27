@@ -14,7 +14,6 @@ CREATE TABLE direcciones(
     pais varchar(100), 
     ciudad varchar(100), 
     departamento varchar(100),  
-    municipio varchar(100), 
     codigoPostal varchar(20),
     latitud DECIMAL(10, 8), 
     longitud DECIMAL(11, 8)
@@ -162,6 +161,7 @@ BEGIN
     IF conteo = 0 THEN
         INSERT INTO usuarios(usuarioNombre, nombre, apellido, generoUsuario, fechaNacimiento, idDireccion, contraseniaUsuario, correoUsuario, imgPerfil, usuarioEstado, idProfile) 
         VALUES(p_usuarioNombre, p_nombre, p_apellido, p_generoUsuario, p_fechaNacimiento, p_idDireccion, p_contraseniaUsuario, p_correoUsuario, p_imgPerfil, 'activo', 2);
+        SELECT last_insert_id() AS idUsuario;
     ELSE
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'El usuario o el correo ya estan registrados';
@@ -172,16 +172,17 @@ CREATE PROCEDURE validarLogin(p_usuarioNombre VARCHAR(45), p_contrasenia VARCHAR
 BEGIN
     DECLARE v_idUsuario INT;
     DECLARE v_idPerfil INT;
+    DECLARE v_idDireccion INT;
 
-    SELECT idUsuario, idProfile INTO v_idUsuario, v_idPerfil
+    SELECT idUsuario, idProfile,idDireccion INTO v_idUsuario, v_idPerfil,v_idDireccion
     FROM usuarios
     WHERE usuarioNombre = p_usuarioNombre AND contraseniaUsuario = p_contrasenia
     LIMIT 1;
 
     IF v_idUsuario IS NOT NULL THEN
-        SELECT v_idUsuario AS idUsuario, v_idPerfil AS idProfile;
+        SELECT v_idUsuario AS idUsuario, v_idPerfil AS idProfile,v_idDireccion AS idDireccion;
     ELSE
-        SELECT 0 AS idUsuario,  0 AS idProfile;
+        SELECT 0 AS idUsuario,  0 AS idProfile,0 AS idDireccion;
     END IF;
 END;//
 
@@ -556,14 +557,13 @@ CREATE PROCEDURE registrarDirecciones(
     p_pais varchar(100),
     p_ciudad varchar(100),
     p_departamento varchar(100),
-    p_municipio varchar(100),
     p_codigoPostal varchar(20),
     p_latitud decimal(10,8),
     p_longitud decimal(11,8)
 )
 BEGIN
-    INSERT INTO direcciones(barrio, direccion, pais, ciudad, departamento, municipio, codigoPostal, latitud, longitud)
-    VALUES(p_barrio, p_direccion, p_pais, p_ciudad, p_departamento, p_municipio, p_codigoPostal, p_latitud, p_longitud);
+    INSERT INTO direcciones(barrio, direccion, pais, ciudad, departamento,  codigoPostal, latitud, longitud)
+    VALUES(p_barrio, p_direccion, p_pais, p_ciudad, p_departamento, p_codigoPostal, p_latitud, p_longitud);
     
     SELECT LAST_INSERT_ID() AS idDireccion;
 END;//
@@ -576,20 +576,20 @@ INSERT INTO perfiles (idProfile, nombreProfile) VALUES (2, 'USUARIO');
 
 
 -- Inserts para la tabla direcciones (data.sql)
-INSERT  INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento, municipio, codigoPostal)
-VALUES (1, 'El Prado', 'Carrera 4 # 22-10', 'Colombia', 'Santa Marta', 'Magdalena', 'Santa Marta', '470001');
+INSERT  INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento,  codigoPostal)
+VALUES (1, 'El Prado', 'Carrera 4 # 22-10', 'Colombia', 'Santa Marta', 'Magdalena',  '470001');
 
-INSERT  INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento, municipio, codigoPostal)
-VALUES (2, 'Bureche', 'Calle Principal Bureche School', 'Colombia', 'Santa Marta', 'Magdalena', 'Santa Marta', '470006');
+INSERT  INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento,  codigoPostal)
+VALUES (2, 'Bureche', 'Calle Principal Bureche School', 'Colombia', 'Santa Marta', 'Magdalena',  '470006');
 
-INSERT  INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento, municipio, codigoPostal)
-VALUES (3, 'Centro Histórico', 'Calle 15 # 3-45', 'Colombia', 'Santa Marta', 'Magdalena', 'Santa Marta', '470001');
+INSERT  INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento, codigoPostal)
+VALUES (3, 'Centro Histórico', 'Calle 15 # 3-45', 'Colombia', 'Santa Marta', 'Magdalena',  '470001');
 
-INSERT INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento, municipio, codigoPostal)
-VALUES (4, 'Ciudad Jardín', 'Avenida Principal 123', 'Colombia', 'Cali', 'Valle del Cauca', 'Cali', '760002');
+INSERT INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento, codigoPostal)
+VALUES (4, 'Ciudad Jardín', 'Avenida Principal 123', 'Colombia', 'Cali', 'Valle del Cauca',  '760002');
 
-INSERT  INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento, municipio, codigoPostal)
-VALUES (5, 'Chapinero', 'Calle 67 # 11-00', 'Colombia', 'Bogotá', 'Cundinamarca', 'Bogotá', '110231');
+INSERT  INTO direcciones (idDireccion, barrio, direccion, pais, ciudad, departamento, codigoPostal)
+VALUES (5, 'Chapinero', 'Calle 67 # 11-00', 'Colombia', 'Bogotá', 'Cundinamarca',  '110231');
 -- Categorías para las publicaciones de Alertix
 
 INSERT INTO categorias (idCategorias, nombreCategoria) VALUES
@@ -598,7 +598,6 @@ INSERT INTO categorias (idCategorias, nombreCategoria) VALUES
 (3, 'Eventos'),
 (4, 'Emergencias');
 
-select * from categorias;
 
 -- Tipos de Reporte
 INSERT INTO tipoReportes (idTipoReportes, tipoReportes) VALUES
@@ -651,6 +650,11 @@ INSERT INTO comentarios (idComentarios, idComentarioHijo, idUsuario, idPublicaci
 INSERT  INTO likes (idLikes, idUsuario, idPublicacion, fechaLike) VALUES
 (1, 1, 1, NOW()),
 (2, 3, 1, NOW());
+
+select * from direcciones;
+
+select * from usuarios;
+
 
 
 

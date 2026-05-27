@@ -3,6 +3,11 @@ package com.scr.alertix.Data.Model.Response;
 public class LoginResponse {
     private Long idUsuario;
     private int idProfile;
+    private Long idDireccion;
+
+    public Long getIdDireccion() {
+        return idDireccion;
+    }
 
     // Getters
     public Long getIdUsuario() { return idUsuario; }

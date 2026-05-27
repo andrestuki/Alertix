@@ -52,6 +52,14 @@ public class ComentariosModal extends BottomSheetDialogFragment {
             idPublicacion = getArguments().getLong("idPublicacion");
         }
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getDialog() != null && getDialog().getWindow() != null) {
+
+            getDialog().getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        }
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,6 +79,7 @@ public class ComentariosModal extends BottomSheetDialogFragment {
             etNuevoComentario.setHint("Respondiendo a " + padre.getNombreUsuario() + "...");
             etNuevoComentario.requestFocus();
         });
+
 
         rvComentario.setLayoutManager(new LinearLayoutManager(getContext()));
         rvComentario.setAdapter(comAdapter);

@@ -76,12 +76,11 @@ public class IniciarSesion extends AppCompatActivity {
 
                     if (res.getIdUsuario() > 0) {
                         SessionManager sessionManager = new SessionManager(IniciarSesion.this);
-                        sessionManager.saveSession(res.getIdUsuario(),res.getIdProfile());
+                        sessionManager.saveSession(res.getIdUsuario(),res.getIdProfile(),res.getIdDireccion());
                         Intent intent = new Intent(IniciarSesion.this, MenuPrincipal.class);
                         intent.putExtra("idUsuario", res.getIdUsuario());
                         intent.putExtra("idProfile", res.getIdProfile());
-
-
+                        intent.putExtra("idDireccion", res.getIdDireccion());
                         startActivity(intent);
                         finish();
                     }

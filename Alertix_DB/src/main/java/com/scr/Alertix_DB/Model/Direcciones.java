@@ -18,13 +18,12 @@ public class Direcciones {
 
     private String direccion;
 
-    private String Pais;
+    private String pais;
 
     private String ciudad;
 
     private String departamento;
 
-    private String municipio;
 
     private String codigoPostal;
 

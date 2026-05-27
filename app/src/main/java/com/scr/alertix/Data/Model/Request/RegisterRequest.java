@@ -1,67 +1,64 @@
 package com.scr.alertix.Data.Model.Request;
 
+import java.time.LocalDateTime;
+
 public class RegisterRequest {
+    private String usuarioNombre;     // Coincide con Backend
     private String nombre;
     private String apellido;
-    private String genero;
-    private String email;
-    private String password;
+    private String generoUsuario;     // Coincide con Backend
+    private String correoUsuario;     // Coincide con Backend
+    private String contraseniaUsuario; // Coincide con Backend
+    private String fechaNacimiento;    // Usar String (yyyy-MM-dd) para facilitar envío
+    private DireccionId idDireccion;
+    private String imgPerfil;
     private int idProfile;
 
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String nombre, String apellido, String genero, String email, String password, int idProfile) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.genero = genero;
-        this.email = email;
-        this.password = password;
-        this.idProfile = idProfile;
+    public static class DireccionId {
+        private Long idDireccion;
+
+        public DireccionId(Long idDireccion) {
+            this.idDireccion = idDireccion;
+        }
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setUsuarioNombre(String usuarioNombre) {
+        this.usuarioNombre = usuarioNombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
-
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
-    public String getGenero() {
-        return genero;
+    public void setGeneroUsuario(String generoUsuario) {
+        this.generoUsuario = generoUsuario;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setCorreoUsuario(String correoUsuario) {
+        this.correoUsuario = correoUsuario;
     }
 
-    public String getEmail() {
-        return email;
+    public void setContraseniaUsuario(String contraseniaUsuario) {
+        this.contraseniaUsuario = contraseniaUsuario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getPassword() {
-        return password;
+    public void setIdDireccion(DireccionId idDireccion) {
+        this.idDireccion = idDireccion;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getIdProfile() {
-        return idProfile;
+    public void setImgPerfil(String imgPerfil) {
+        this.imgPerfil = imgPerfil;
     }
 
     public void setIdProfile(int idProfile) {

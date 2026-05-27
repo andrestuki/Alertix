@@ -10,8 +10,8 @@ public class DireccionesServices {
     @Autowired
     private DireccionesRepository direccionesRepository;
 
-    public Integer registrarDireccion(Direcciones dir){
+    public Long registrarDireccion(Direcciones dir){
         return direccionesRepository.registrarDirecciones(dir.getBarrio(),dir.getDireccion(),
-                dir.getPais(),dir.getCiudad(),dir.getDepartamento(),dir.getMunicipio(),dir.getCodigoPostal(),dir.getLatitud(),dir.getLongitud());
+                dir.getPais(),dir.getCiudad(),dir.getDepartamento(),dir.getCodigoPostal(),dir.getLatitud(),dir.getLongitud());
     }
 }

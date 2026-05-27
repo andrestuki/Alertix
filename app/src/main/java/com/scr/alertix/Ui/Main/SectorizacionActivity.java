@@ -3,6 +3,7 @@ package com.scr.alertix.Ui.Main;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,12 +37,20 @@ public class SectorizacionActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+       Log.d("MAPA_DEBUG", "El mapa está listo");
         mMap = googleMap;
 
-        // Coordenadas por defecto (puedes ajustarlas a tu ciudad)
-        LatLng defaultLocation = new LatLng(-33.4489, -70.6693); // Santiago, Chile
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setScrollGesturesEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        LatLng defaultLocation = new LatLng(11.2404, -74.1990);
+
         mMap.addMarker(new MarkerOptions().position(defaultLocation).title("Tu Ubicación"));
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 12));
+
 
         enableMyLocation();
     }

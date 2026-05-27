@@ -6,6 +6,7 @@ import com.scr.Alertix_DB.Model.LoginResponse;
 import com.scr.Alertix_DB.Model.Usuarios;
 import com.scr.Alertix_DB.Services.UsuariosServices;
 import jakarta.validation.Valid;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,11 @@ public class UsuariosController {
     @PostMapping("/registrar")
     public ResponseEntity<?> registrar(@Valid @RequestBody Usuarios usuario) {
         try {
-            usuariosService.registrarNuevoUsuario(usuario);
-            return new ResponseEntity<>("Usuario registrado con éxito en Alertix", HttpStatus.CREATED);
+            Integer idUsuario =   usuariosService.registrarNuevoUsuario(usuario);
+
+            return new ResponseEntity<>(idUsuario, HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.println("Error en registro: " + e.getMessage());
             return new ResponseEntity<>("Error al registrar: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -36,7 +39,7 @@ public class UsuariosController {
             LoginResponse respuesta = usuariosService.validarLogin(request.getUsuario(), request.getContrasenia());
 
             // 2. Verificamos si el ID es nulo o 0 (Usuario no encontrado/Contraseña mal)
-            if (respuesta.getIdUsuario() == null || respuesta.getIdUsuario() == 0) {
+            if (respuesta.getIdUsuario() == null || respuesta.getIdUsuario() == 0 ) {
                 return new ResponseEntity<>(respuesta.getMensaje(), HttpStatus.UNAUTHORIZED);
             }
 

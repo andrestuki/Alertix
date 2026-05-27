@@ -1,0 +1,308 @@
+[
+  {
+    "pais": "Colombia",
+    "departamentos": [
+      {
+        "nombre": "Amazonas",
+        "ciudades": ["Leticia", "Puerto Nariño"]
+      },
+      {
+        "nombre": "Antioquia",
+        "ciudades": ["Medellín", "Envigado", "Bello", "Itagüí", "Sabaneta", "Rionegro", "Apartadó", "Caucasia", "Turbo"]
+      },
+      {
+        "nombre": "Arauca",
+        "ciudades": ["Arauca", "Tame", "Saravena", "Arauquita"]
+      },
+      {
+        "nombre": "Atlántico",
+        "ciudades": ["Barranquilla", "Soledad", "Malambo", "Puerto Colombia", "Sabanalarga", "Baranoa"]
+      },
+      {
+        "nombre": "Bogotá D.C.",
+        "ciudades": ["Bogotá D.C."]
+      },
+      {
+        "nombre": "Bolívar",
+        "ciudades": ["Cartagena", "Magangué", "Turbaco", "Arjona", "Carmen de Bolívar"]
+      },
+      {
+        "nombre": "Boyacá",
+        "ciudades": ["Tunja", "Duitama", "Sogamoso", "Chiquinquirá", "Paipa", "Puerto Boyacá"]
+      },
+      {
+        "nombre": "Caldas",
+        "ciudades": ["Manizales", "La Dorada", "Chinchiná", "Riosucio", "Villamaría"]
+      },
+      {
+        "nombre": "Caquetá",
+        "ciudades": ["Florencia", "San Vicente del Caguán", "Puerto Rico", "Belén de los Andaquíes"]
+      },
+      {
+        "nombre": "Casanare",
+        "ciudades": ["Yopal", "Aguazul", "Villanueva", "Tauramena", "Paz de Ariporo"]
+      },
+      {
+        "nombre": "Cauca",
+        "ciudades": ["Popayán", "Santander de Quilichao", "Puerto Tejada", "Patía", "Bolívar"]
+      },
+      {
+        "nombre": "Cesar",
+        "ciudades": ["Valledupar", "Aguachica", "Agustín Codazzi", "Bosconia", "Curumaní"]
+      },
+      {
+        "nombre": "Chocó",
+        "ciudades": ["Quibdó", "Istmina", "Condoto", "Acandí", "Bahía Solano"]
+      },
+      {
+        "nombre": "Córdoba",
+        "ciudades": ["Montería", "Cereté", "Sahagún", "Lorica", "Montelíbano", "Planeta Rica"]
+      },
+      {
+        "nombre": "Cundinamarca",
+        "ciudades": ["Soacha", "Chía", "Zipaquirá", "Facatativá", "Fusagasugá", "Girardot", "Mosquera", "Madrid", "Funza"]
+      },
+      {
+        "nombre": "Guainía",
+        "ciudades": ["Inírida"]
+      },
+      {
+        "nombre": "Guaviare",
+        "ciudades": ["San José del Guaviare", "Calamar", "El Retorno"]
+      },
+      {
+        "nombre": "Huila",
+        "ciudades": ["Neiva", "Pitalito", "Garzón", "La Plata", "Campoalegre"]
+      },
+      {
+        "nombre": "La Guajira",
+        "ciudades": ["Riohacha", "Maicao", "Uribia", "San Juan del Cesar", "Fonseca"]
+      },
+      {
+        "nombre": "Magdalena",
+        "ciudades": ["Santa Marta", "Ciénaga", "Fundación", "Plato", "El Banco"]
+      },
+      {
+        "nombre": "Meta",
+        "ciudades": ["Villavicencio", "Acapías", "Granada", "Puerto López", "Cumaral"]
+      },
+      {
+        "nombre": "Nariño",
+        "ciudades": ["Pasto", "Tumaco", "Ipiales", "Túquerres", "La Unión"]
+      },
+      {
+        "nombre": "Norte de Santander",
+        "ciudades": ["Cúcuta", "Ocaña", "Pamplona", "Villa del Rosario", "Los Patios", "Tibú"]
+      },
+      {
+        "nombre": "Putumayo",
+        "ciudades": ["Mocoa", "Puerto Asís", "Orito", "Sibundoy", "Villagarzón"]
+      },
+      {
+        "nombre": "Quindío",
+        "ciudades": ["Armenia", "Calarcá", "Dosquebradas", "Montenegro", "Quimbaya", "Circasia"]
+      },
+      {
+        "nombre": "Risaralda",
+        "ciudades": ["Pereira", "Dosquebradas", "Santa Rosa de Cabal", "La Virginia"]
+      },
+      {
+        "nombre": "San Andrés y Providencia",
+        "ciudades": ["San Andrés", "Providencia"]
+      },
+      {
+        "nombre": "Santander",
+        "ciudades": ["Bucaramanga", "Floridablanca", "Girón", "Piedecuesta", "Barrancabermeja", "San Gil", "Socorro"]
+      },
+      {
+        "nombre": "Sucre",
+        "ciudades": ["Sincelejo", "Corozal", "San Marcos", "Tolú", "Sampués"]
+      },
+      {
+        "nombre": "Tolima",
+        "ciudades": ["Ibagué", "Espinal", "Melgar", "Mariquita", "Honda", "Líbano"]
+      },
+      {
+        "nombre": "Valle del Cauca",
+        "ciudades": ["Cali", "Palmira", "Buenaventura", "Tuluá", "Cartago", "Buga", "Jamundí", "Yumbo"]
+      },
+      {
+        "nombre": "Vaupés",
+        "ciudades": ["Mitú", "Carurú", "Taraira"]
+      },
+      {
+        "nombre": "Vichada",
+        "ciudades": ["Puerto Carreño", "Santa Rosalía", "Cumaribo"]
+      }
+    ]
+  },
+  {
+    "pais": "México",
+    "departamentos": [
+      {
+        "nombre": "Ciudad de México",
+        "ciudades": ["Coyoacán", "Iztapalapa", "Benito Juárez", "Miguel Hidalgo", "Tlalpan"]
+      },
+      {
+        "nombre": "Jalisco",
+        "ciudades": ["Guadalajara", "Zapopan", "Tlaquepaque", "Tonalá", "Puerto Vallarta"]
+      },
+      {
+        "nombre": "Nuevo León",
+        "ciudades": ["Monterrey", "Guadalupe", "Apodaca", "San Nicolás de los Garza", "San Pedro Garza García"]
+      },
+      {
+        "nombre": "Estado de México",
+        "ciudades": ["Ecatepec", "Neza", "Toluca", "Naucalpan", "Tlalnepantla"]
+      }
+    ]
+  },
+  {
+    "pais": "Estados Unidos",
+    "departamentos": [
+      {
+        "nombre": "California",
+        "ciudades": ["Los Ángeles", "San Francisco", "San Diego", "San José", "Sacramento"]
+      },
+      {
+        "nombre": "Florida",
+        "ciudades": ["Miami", "Orlando", "Tampa", "Jacksonville", "Tallahassee"]
+      },
+      {
+        "nombre": "Texas",
+        "ciudades": ["Houston", "San Antonio", "Dallas", "Austin", "El Paso"]
+      },
+      {
+        "nombre": "Nueva York",
+        "ciudades": ["New York City", "Buffalo", "Rochester", "Yonkers", "Albany"]
+      }
+    ]
+  },
+  {
+    "pais": "Argentina",
+    "departamentos": [
+      {
+        "nombre": "Buenos Aires (Capital)",
+        "ciudades": ["Buenos Aires"]
+      },
+      {
+        "nombre": "Provincia de Buenos Aires",
+        "ciudades": ["La Plata", "Mar del Plata", "Bahía Blanca", "Lanús", "Quilmes"]
+      },
+      {
+        "nombre": "Córdoba",
+        "ciudades": ["Córdoba", "Río Cuarto", "Villa María", "Carlos Paz"]
+      },
+      {
+        "nombre": "Mendoza",
+        "ciudades": ["Mendoza", "San Rafael", "Godoy Cruz", "Maipú"]
+      }
+    ]
+  },
+  {
+    "pais": "España",
+    "departamentos": [
+      {
+        "nombre": "Madrid",
+        "ciudades": ["Madrid", "Alcalá de Henares", "Móstoles", "Fuenlabrada", "Leganés"]
+      },
+      {
+        "nombre": "Cataluña",
+        "ciudades": ["Barcelona", "Hospitalet", "Terrassa", "Badalona", "Sabadell"]
+      },
+      {
+        "nombre": "Andalucía",
+        "ciudades": ["Sevilla", "Málaga", "Córdoba", "Granada", "Jerez de la Frontera"]
+      },
+      {
+        "nombre": "Comunidad Valenciana",
+        "ciudades": ["Valencia", "Alicante", "Elche", "Castellón de la Plana"]
+      }
+    ]
+  },
+  {
+    "pais": "Brasil",
+    "departamentos": [
+      {
+        "nombre": "São Paulo",
+        "ciudades": ["São Paulo", "Campinas", "Santos", "São Bernardo do Campo", "Guarulhos"]
+      },
+      {
+        "nombre": "Río de Janeiro",
+        "ciudades": ["Río de Janeiro", "Niterói", "Duque de Caxias", "Nova Iguaçu"]
+      },
+      {
+        "nombre": "Minas Gerais",
+        "ciudades": ["Belo Horizonte", "Uberlândia", "Contagem", "Juiz de Fora"]
+      }
+    ]
+  },
+  {
+    "pais": "Perú",
+    "departamentos": [
+      {
+        "nombre": "Lima",
+        "ciudades": ["Lima", "Callao", "Ate", "San Juan de Lurigancho"]
+      },
+      {
+        "nombre": "Arequipa",
+        "ciudades": ["Arequipa", "Cayma", "Cerro Colorado"]
+      },
+      {
+        "nombre": "La Libertad",
+        "ciudades": ["Trujillo", "Chepén", "Huamachuco"]
+      }
+    ]
+  },
+  {
+    "pais": "Chile",
+    "departamentos": [
+      {
+        "nombre": "Región Metropolitana",
+        "ciudades": ["Santiago", "Puente Alto", "Maipú", "La Florida", "San Bernardo"]
+      },
+      {
+        "nombre": "Valparaíso",
+        "ciudades": ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana"]
+      },
+      {
+        "nombre": "Biobío",
+        "ciudades": ["Concepción", "Talcahuano", "Los Ángeles", "Chillán"]
+      }
+    ]
+  },
+  {
+    "pais": "Ecuador",
+    "departamentos": [
+      {
+        "nombre": "Pichincha",
+        "ciudades": ["Quito", "Sangolquí", "Machachi"]
+      },
+      {
+        "nombre": "Guayas",
+        "ciudades": ["Guayaquil", "Durán", "Milagro", "Samborondón"]
+      },
+      {
+        "nombre": "Azuay",
+        "ciudades": ["Cuenca", "Gualaceo", "Paute"]
+      }
+    ]
+  },
+  {
+    "pais": "Venezuela",
+    "departamentos": [
+      {
+        "nombre": "Distrito Capital",
+        "ciudades": ["Caracas"]
+      },
+      {
+        "nombre": "Zulia",
+        "ciudades": ["Maracaibo", "Cabimas", "Ciudad Ojeda", "San Francisco"]
+      },
+      {
+        "nombre": "Carabobo",
+        "ciudades": ["Valencia", "Puerto Cabello", "Guacara", "Naguanagua"]
+      }
+    ]
+  }
+]

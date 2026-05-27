@@ -6,8 +6,6 @@ public class DireccionesRequest {
     private String pais;
     private String ciudad;
     private String departamento;
-    private String municipio;
-
     private String codigoPostal;
     private double latitud;
     private double longitud;
@@ -32,9 +30,6 @@ public class DireccionesRequest {
         this.departamento = departamento;
     }
 
-    public void setMunicipio(String municipio) {
-        this.municipio = municipio;
-    }
 
     public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;

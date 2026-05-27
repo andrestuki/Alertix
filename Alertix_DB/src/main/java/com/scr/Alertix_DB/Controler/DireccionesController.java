@@ -20,7 +20,7 @@ public class DireccionesController {
     @PostMapping("/registrar-direcciones")
     public ResponseEntity<?> registrarDirecciones(@RequestBody Direcciones direcciones){
         try {
-            Integer idDireccion = direccionesServices.registrarDireccion(direcciones);
+            Long idDireccion = direccionesServices.registrarDireccion(direcciones);
             return new ResponseEntity<>(idDireccion, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("error: " + e.getMessage(), HttpStatus.BAD_REQUEST);

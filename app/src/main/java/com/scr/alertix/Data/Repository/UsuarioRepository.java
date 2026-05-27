@@ -7,6 +7,7 @@ import com.scr.alertix.Data.Network.RetrofitClient;
 import com.scr.alertix.Data.Network.UsuarioApi;
 import com.scr.alertix.Pojo.Usuario;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 
 public class UsuarioRepository {
@@ -21,7 +22,8 @@ public class UsuarioRepository {
         apiService.login(request).enqueue(callback);
     }
 
-    public void registrarUsuario(RegisterRequest request, Callback<Usuario> callback) {
-        apiService.registrar(request).enqueue(callback);
+    public void registrarUsuario(RegisterRequest request, Callback<Integer> callback) {
+        Call<Integer> call= apiService.registrar(request);
+        call.enqueue(callback);
     }
 }

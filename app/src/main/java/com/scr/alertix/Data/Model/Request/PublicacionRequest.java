@@ -24,7 +24,7 @@ public class PublicacionRequest {
     }
 
     public static class DireccionId {
-        private Integer idDireccion;
-        public DireccionId(Integer id) { this.idDireccion = id; }
+        private Long idDireccion;
+        public DireccionId(Long id) { this.idDireccion = id; }
     }
 }

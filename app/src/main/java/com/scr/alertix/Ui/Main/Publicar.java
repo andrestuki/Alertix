@@ -44,7 +44,7 @@ public class Publicar extends AppCompatActivity {
     ImageView imgPreview;
 
     SessionManager sessionManager;
-    Long idUsuario;
+    Long idUsuario,idDireccion;
     PublicacionRepository repository;
     CategoriasRepository catRepository;
     private List<TipoCategoriasDTO> listaCategoriasGlobal;
@@ -99,14 +99,13 @@ public class Publicar extends AppCompatActivity {
                 idCategoriaDetectado = (idCat != null) ? idCat : 0;
                 tipoSeleccionado = seleccionado.getNombreCategoria();
 
-                Log.d("API_CAT",
-                        "ID: " + seleccionado.getIdCategoria()
-                                + " Nombre: " + seleccionado.getNombreCategoria());
+                Log.d("API_CAT", "ID: " + seleccionado.getIdCategoria() + " Nombre: " + seleccionado.getNombreCategoria());
             }
         });
 
         btnPublicar.setOnClickListener(view -> {
             idUsuario = sessionManager.getUserId();
+            idDireccion = sessionManager.getDireccionId();
             String descripcion = edtDescripcion.getText().toString().trim();
             String textoTipoAlerta = comboTipoAlerta.getText().toString().trim();
 
@@ -133,7 +132,7 @@ public class Publicar extends AppCompatActivity {
                 nuevaP.setImg(base64Image);
                 nuevaP.setIdUsuarios(new PublicacionRequest.UsuarioId(idUsuario));
                 nuevaP.setCategorias(new PublicacionRequest.CategoriaId(idCategoriaDetectado));
-                nuevaP.setIdDireccion(new PublicacionRequest.DireccionId(1));
+                nuevaP.setIdDireccion(new PublicacionRequest.DireccionId(idDireccion));
 
                 repository.crearPublicacion(nuevaP, new Callback<Void>() {
                     @Override

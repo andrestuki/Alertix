@@ -13,6 +13,6 @@ public interface UsuarioApi {
     @POST("login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
-    @POST("usuarios")
-    Call<Usuario> registrar(@Body RegisterRequest registerRequest);
+    @POST("registrar")
+    Call<Integer> registrar(@Body RegisterRequest registerRequest);
 }

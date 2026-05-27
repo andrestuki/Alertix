@@ -16,9 +16,10 @@ import com.scr.alertix.R;
 
 public class RegistrarPrimeraPagina extends AppCompatActivity {
 
-    EditText edtNombre, edtApellido;
-    Button btnContinuar;
+    EditText edtNombre, edtApellido,edtFechaNacimiento;
 
+    Button btnContinuar;
+    String fechaSeleccionada = "";
     String nombre, apellido;
 
     @Override
@@ -35,6 +36,13 @@ public class RegistrarPrimeraPagina extends AppCompatActivity {
         edtNombre = findViewById(R.id.edtNombre);
         edtApellido = findViewById(R.id.edtApellido);
         btnContinuar = findViewById(R.id.btnRegistrar1Continuar);
+        edtFechaNacimiento = findViewById(R.id.edtFechaNacimiento);
+        edtFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarCalendario();
+            }
+        });
 
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,10 +55,8 @@ public class RegistrarPrimeraPagina extends AppCompatActivity {
 
                     primera.putExtra("nombre", nombre);
                     primera.putExtra("apellido", apellido);
+                    primera.putExtra("fechaNacimiento", fechaSeleccionada);
                     startActivity(primera);
-                    finish();
-
-
                 }
                 else {
                     edtNombre.setError("Este campo es obligatorio");
@@ -58,5 +64,22 @@ public class RegistrarPrimeraPagina extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void mostrarCalendario() {
+        final java.util.Calendar c = java.util.Calendar.getInstance();
+        int year = c.get(java.util.Calendar.YEAR);
+        int month = c.get(java.util.Calendar.MONTH);
+        int day = c.get(java.util.Calendar.DAY_OF_MONTH);
+
+        android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(this,
+                (view, year1, monthOfYear, dayOfMonth) -> {
+                    // Formatear para que siempre tenga 2 dígitos (ej: 05 en vez de 5)
+                    String diaStr = (dayOfMonth < 10) ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
+                    String mesStr = ((monthOfYear + 1) < 10) ? "0" + (monthOfYear + 1) : String.valueOf(monthOfYear + 1);
+
+                    fechaSeleccionada = year1 + "-" + mesStr + "-" + diaStr;
+                    edtFechaNacimiento.setText(fechaSeleccionada);
+                }, year, month, day);
+        datePickerDialog.show();
     }
 }

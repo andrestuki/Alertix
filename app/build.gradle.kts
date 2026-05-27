@@ -56,6 +56,12 @@ dependencies {
     implementation(libs.material3)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
+    
+    // --- GOOGLE PLACES & MAPS ---
+    implementation(libs.places)
+    implementation(libs.play.services.maps)
+    implementation(libs.maps.utils)
+
     // --- LOMBOK ---
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
@@ -83,10 +89,9 @@ dependencies {
     // 3. Para pedir permisos de cámara/gps fácil (Dexter)
     implementation(libs.dexter)
 
-    // --- FIREBASE & MAPS ---
+    // --- FIREBASE & LOCATION ---
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
-    implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
 
     testImplementation(libs.junit)
